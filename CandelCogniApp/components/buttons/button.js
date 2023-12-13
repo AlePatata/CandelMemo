@@ -3,7 +3,7 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import colors from '../../styles/colors';
 
-const Button = ({
+const CustomButton = ({
     title,
     onPress = () => {},
     height = 55,
@@ -40,5 +40,5 @@ const Button = ({
     );
 };
 
-export default Button;
+export default CustomButton;
 

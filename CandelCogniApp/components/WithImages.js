@@ -1,90 +1,82 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import CustomButton from './buttons/button'
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-    faCircle,
-    faSquare,
-    faStar,
-    faHeart,
-    faPlay,
-    faDiamond,
-    faQuestionCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import pattern from './images/pattern';
+import DisplayAnImage from './images/DisplayAnImage';
+import Level from '../level';
 
+const images = pattern[1];
+const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
-const icons = [faCircle, faSquare, faStar, faHeart, faPlay, faDiamond];
-const sinIcono = faQuestionCircle;
-
-
-
-const Game = ({ navigation }) => {
+const WithImages = ({ navigation }) => {
 
     const [cards, setCards] = useState([]);
-    const [qcards, setQCards] = useState([sinIcono, sinIcono, sinIcono]);
-    const [targetIcon, setTargetIcon] = useState(null);
+    const [qcards, setQCards] = useState([withoutImage, withoutImage, withoutImage]);
+    const [targetImage, setTargetImage] = useState(withoutImage);
     const [score, setScore] = useState(0);
     const [errors, setErrors] = useState(0);
     const [feedbackMessage, setFeedbackMessage] = useState('');
-
+    
 
     useEffect(() => {
         // Función para iniciar un nuevo nivel
         const startNewLevel = () => {
-            let randomIcons = [];
+            let randomimages = [];
             do {
-            randomIcons = Array.from(
+            randomimages = Array.from(
                 {length: 3},
-                () => icons[Math.floor(Math.random() * icons.length)],
+                () => images[Math.floor(Math.random() * images.length)],
             );
             } while (
-            randomIcons[0] === randomIcons[1] ||
-            randomIcons[0] === randomIcons[2] ||
-            randomIcons[1] === randomIcons[2]
+            randomimages[0].id === randomimages[1].id ||
+            randomimages[0].id === randomimages[2].id ||
+            randomimages[1].id === randomimages[2].id
             );
 
-            setCards(randomIcons);
-            setQCards(randomIcons);
+            setCards(randomimages);
+            setQCards(randomimages);
             setFeedbackMessage(''); // Limpiar el mensaje de retroalimentación
-            setTargetIcon('');
+            setTargetImage('');
             // Esperar 5 segundos y luego mostrar el icono buscado y ocultar los iconos
             setTimeout(() => {
-            setTargetIcon(
-                randomIcons[Math.floor(Math.random() * randomIcons.length)],
-            ); // Icono buscado
+            setTargetImage(
+                randomimages[Math.floor(Math.random() * randomimages.length)],
+            );
             console.log(
-                '\n----------------randomIcons--------------\n ',
-                randomIcons,
+                '\n----------------randomimages--------------\n ',
+                randomimages,
                 '\n-----------------------------------------\n',
             );
-            setCards([sinIcono, sinIcono, sinIcono]); // Tarjetas sin iconos
+            setCards([withoutImage, withoutImage, withoutImage]); // Tarjetas sin iconos
             }, 3000);
         };
 
         // Iniciar un nuevo nivel cuando se carga la aplicación y después de cada intento
         startNewLevel();
         }, [score, errors]); // Dependencias de puntuación y errores para iniciar nuevos niveles
-
+        
         const handleCardClick = clickedIndex => {
         console.log(
-            '\n----------------ICON--------------\n ',
+            '\n----------------IMAGE--------------\n ',
             qcards[clickedIndex],
             '\n----------------------------------\n',
         );
         console.log(
-            '\n----------------TARGETICON--------------\n ',
-            targetIcon,
+            '\n----------------TARGETIMAGE--------------\n ',
+            targetImage,
             '\n----------------------------------\n',
         );
+        
 
         // Verificar si el índice seleccionado es correcto
-        if (qcards[clickedIndex] === targetIcon) {
+        if (qcards[clickedIndex][0] === targetImage[0]) {
             setScore(score + 1); // Aumentar la puntuación si es correcto
             setFeedbackMessage('¡Correcto!');
         } else {
             setErrors(errors + 1); // Aumentar el número de errores
             setFeedbackMessage('¡Incorrecto!');
         }
+        
     };
 
     return (
@@ -96,34 +88,33 @@ const Game = ({ navigation }) => {
                 justifyContent: 'center',
             }}>
             
-            
-            <Text style={{fontSize: 24, marginBottom: 20}}>Encuentra el icono</Text>
+            <Text style={{fontSize: 24, marginBottom: 20}}>Encuentra la imagen</Text>
             <View
-                style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-                {cards.map((icon, index) => (
+                style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
+                {cards.map((imagen, index) => (
                     <TouchableOpacity
                         key={index}
                         style={{
                             backgroundColor: 'orange',
-                            height: 60,
-                            width: 60,
+                            height: 100,
+                            width: 100,
                             alignItems: 'center',
                             justifyContent: 'center',
                             margin: 10,
                             borderRadius: 5,
                         }}
                         onPress={() => handleCardClick(index)}>
-                        {icon && <FontAwesomeIcon icon={icon} size={32} color="dodgerblue" />}
+                        {imagen && <DisplayAnImage source={imagen.path}/>}
                     </TouchableOpacity> // Color 3 iconos
                 ))}
                 
         </View>
         
         {feedbackMessage !== '' && <Text>{feedbackMessage}</Text>}
-        {targetIcon && (
-            <View style={{marginTop: 20}}>
-                <Text>Icono buscado:</Text>
-                <FontAwesomeIcon icon={targetIcon} size={32} color="black" />
+        {targetImage && (
+            <View style={{marginTop: 10}}>
+                <Text>Imagen buscada:</Text>
+                <DisplayAnImage source={targetImage.path}  />
             </View>  // Color icono misterioso
         )}
         <Text style={{marginTop: 20}}>Puntuación: {score}</Text>
@@ -137,4 +128,4 @@ const Game = ({ navigation }) => {
     )
 }
 
-export default Game;
+export default WithImages;

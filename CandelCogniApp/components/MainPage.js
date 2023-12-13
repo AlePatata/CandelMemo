@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Button, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import CustomButton from './buttons/button'
 
 const styles = StyleSheet.create({
   container: {
@@ -16,10 +17,12 @@ const styles = StyleSheet.create({
 const MainPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>¡Bienvenido a Mi Aplicación!</Text>
-      <Button
-        title="Ir a la pantalla Principal"
-        onPress={() => navigation.navigate('Game')}
+      <Text style={styles.text}>¡Bienvenido a *nombreDelJuego*!</Text>
+      
+      <CustomButton
+        title="Jugar"
+        onPress={() => navigation.navigate('WithImages')}
+        
       />
     </View>
   );

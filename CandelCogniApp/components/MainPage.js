@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
 const MainPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>¡Bienvenido a *nombreDelJuego*!</Text>
+      <Text style={styles.text}>¡Bienvenido a MEMO!</Text>
+      <Text style={styles.text}> </Text>
       
       <CustomButton
         title="Jugar"

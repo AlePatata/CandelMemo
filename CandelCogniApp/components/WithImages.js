@@ -3,9 +3,8 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import CustomButton from './buttons/button'
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
-import Level from '../level';
 
-const images = pattern[1];
+ // Levels
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
 const WithImages = ({ navigation }) => {
@@ -16,6 +15,10 @@ const WithImages = ({ navigation }) => {
     const [score, setScore] = useState(0);
     const [errors, setErrors] = useState(0);
     const [feedbackMessage, setFeedbackMessage] = useState('');
+
+    var level = Math.floor(score/4) + 1
+
+    const images = pattern.find(item => item[0] === level )[1];
     
 
     useEffect(() => {
@@ -72,6 +75,7 @@ const WithImages = ({ navigation }) => {
         if (qcards[clickedIndex][0] === targetImage[0]) {
             setScore(score + 1); // Aumentar la puntuación si es correcto
             setFeedbackMessage('¡Correcto!');
+            round += 1;
         } else {
             setErrors(errors + 1); // Aumentar el número de errores
             setFeedbackMessage('¡Incorrecto!');
@@ -105,7 +109,7 @@ const WithImages = ({ navigation }) => {
                         }}
                         onPress={() => handleCardClick(index)}>
                         {imagen && <DisplayAnImage source={imagen.path}/>}
-                    </TouchableOpacity> // Color 3 iconos
+                    </TouchableOpacity> 
                 ))}
                 
         </View>
@@ -115,7 +119,7 @@ const WithImages = ({ navigation }) => {
             <View style={{marginTop: 10}}>
                 <Text>Imagen buscada:</Text>
                 <DisplayAnImage source={targetImage.path}  />
-            </View>  // Color icono misterioso
+            </View> 
         )}
         <Text style={{marginTop: 20}}>Puntuación: {score}</Text>
         <Text>Errores: {errors}</Text>

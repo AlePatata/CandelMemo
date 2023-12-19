@@ -16,7 +16,7 @@ const WithImages = ({ navigation }) => {
     const [errors, setErrors] = useState(0);
     const [feedbackMessage, setFeedbackMessage] = useState('');
 
-    var level = Math.floor(score/4) + 1
+    var level = Math.floor(score/1) % pattern.length + 1
 
     const images = pattern.find(item => item[0] === level )[1];
     
@@ -75,7 +75,6 @@ const WithImages = ({ navigation }) => {
         if (qcards[clickedIndex][0] === targetImage[0]) {
             setScore(score + 1); // Aumentar la puntuación si es correcto
             setFeedbackMessage('¡Correcto!');
-            round += 1;
         } else {
             setErrors(errors + 1); // Aumentar el número de errores
             setFeedbackMessage('¡Incorrecto!');

@@ -17,7 +17,6 @@ const WithImages = ({ navigation }) => {
     const [feedbackMessage, setFeedbackMessage] = useState('');
 
     var level = Math.floor(score/1) % pattern.length + 1
-
     const images = pattern.find(item => item[0] === level )[1];
     
 
@@ -72,7 +71,7 @@ const WithImages = ({ navigation }) => {
         
 
         // Verificar si el índice seleccionado es correcto
-        if (qcards[clickedIndex][0] === targetImage[0]) {
+        if (qcards[clickedIndex].id === targetImage.id) {
             setScore(score + 1); // Aumentar la puntuación si es correcto
             setFeedbackMessage('¡Correcto!');
         } else {
@@ -98,13 +97,15 @@ const WithImages = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={{
-                            backgroundColor: 'orange',
-                            height: 100,
-                            width: 100,
+                            backgroundColor: 'white',
+                            height: 110,
+                            width: 110,
                             alignItems: 'center',
                             justifyContent: 'center',
                             margin: 10,
                             borderRadius: 5,
+                            borderWidth: 5,         
+                            borderColor: 'orange',
                         }}
                         onPress={() => handleCardClick(index)}>
                         {imagen && <DisplayAnImage source={imagen.path}/>}

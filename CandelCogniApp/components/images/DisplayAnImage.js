@@ -1,17 +1,16 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import ImageSize from 'react-native-image-size';
 
 const DisplayAnImage = ({ source }) => {
   // Establecer una imagen predeterminada si no se proporciona una fuente
-  const imageSource = source ? source : require('../../assets/logo_peq.png');
-  //const Size = ImageSize.getSize(source)
+  const imageSource = source ? source : require('../../assets/target.png');
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.tinyLogo}
         source={imageSource}
+        resizeMode="contain" // Añade esta línea para especificar el modo de redimensionamiento
       />
     </View>
   );
@@ -32,3 +31,4 @@ const styles = StyleSheet.create({
 });
 
 export default DisplayAnImage;
+

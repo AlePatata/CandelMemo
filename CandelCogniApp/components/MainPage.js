@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
+    color: '#696969',
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -22,7 +23,7 @@ const MainPage = ({ navigation }) => {
       
       <CustomButton
         title="Jugar"
-        onPress={() => navigation.navigate('WithImages')}
+        onPress={() => navigation.navigate('MoreCards')}
         
       />
     </View>

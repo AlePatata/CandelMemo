@@ -14,7 +14,14 @@ const MainPage = ({ navigation }) => {
       <CustomButton
         title="Jugar"
         onPress={() => navigation.navigate('WithImages')}
-        
+        width='70%'
+      />
+      <View style={{ marginVertical: 10 }} /> 
+      <CustomButton
+        title="¿Cómo jugar?"
+        onPress={() => navigation.navigate('Tutorial')}
+        width='60%'
+        height={50}
       />
     </View>
   );

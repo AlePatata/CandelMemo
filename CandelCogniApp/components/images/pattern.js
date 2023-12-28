@@ -121,7 +121,9 @@ const pattern = [
         {id:8,path:require("../../assets/lynx.png"), "name":"lynx", "size_w":300, "size_h":300},
         {id:9,path:require("../../assets/puma.png"), "name":"puma", "size_w":300, "size_h":300},
         {id:10,path:require("../../assets/racoon.png"), "name":"racoon", "size_w":300, "size_h":300},
-        {id:11,path:require("../../assets/kangaroo.png"), "name":"kangaroo", "size_w":300, "size_h":300}
+        {id:11,path:require("../../assets/kangaroo.png"), "name":"kangaroo", "size_w":300, "size_h":300},
+        {id: 12, path: require("../../assets/animals/cat_PNG99.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 13, path: require("../../assets/animals/cheetah_PNG14847.png"), "name":"Default", "size_w":300, "size_h":300}
         ]
     ],
     [3, 
@@ -130,7 +132,29 @@ const pattern = [
         {id:2,path:require("../../assets/real.png"), "name":"real", "size_w":300, "size_h":300},
         {id:3,path:require("../../assets/chicken.png"), "name":"chicken", "size_w":300, "size_h":300},
         {id:4,path:require("../../assets/penguin.png"), "name":"penguin", "size_w":300, "size_h":300},
-        {id:5,path:require("../../assets/babypenguin.png"), "name":"babypenguin", "size_w":300, "size_h":300}
+        {id:5,path:require("../../assets/babypenguin.png"), "name":"babypenguin", "size_w":300, "size_h":300},
+        {id: 6, path: require("../../assets/animals/birds_PNG102.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 14, path: require("../../assets/animals/chicken_PNG2167.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 20, path: require("../../assets/animals/crow_PNG3098.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 21, path: require("../../assets/animals/cuckoo_PNG18.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 30, path: require("../../assets/animals/duck_PNG5021.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 31, path: require("../../assets/animals/eagle_PNG1202.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 34, path: require("../../assets/animals/falcon_PNG18.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 38, path: require("../../assets/animals/flamingo_PNG15110.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 47, path: require("../../assets/animals/goose_PNG21.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 49, path: require("../../assets/animals/gull_PNG57.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 52, path: require("../../assets/animals/heron_PNG42.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 55, path: require("../../assets/animals/hummingbird_PNG74.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 64, path: require("../../assets/animals/kiwi_bird_PNG21.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 80, path: require("../../assets/animals/ostrich_PNG14.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 83, path: require("../../assets/animals/parrot_PNG708.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 85, path: require("../../assets/animals/peacock_PNG26.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 86, path: require("../../assets/animals/pelican_PNG8.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 87, path: require("../../assets/animals/pigeon_PNG3417.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 89, path: require("../../assets/animals/pinguin_PNG12.png"), "name":"Default", "size_w":300, "size_h":300}
+        
+        
+        
         ]
     ],
     [4, 
@@ -151,7 +175,17 @@ const pattern = [
         {id:2,path:require("../../assets/snake.png"), "name":"snake", "size_w":300, "size_h":300},
         {id:3,path:require("../../assets/cobra.png"), "name":"cobra", "size_w":300, "size_h":300},
         {id:4,path:require("../../assets/worm.png"), "name":"worm", "size_w":300, "size_h":300},
-        {id:5,path:require("../../assets/tortoise.png"), "name":"tortoise", "size_w":300, "size_h":300}
+        {id:5,path:require("../../assets/tortoise.png"), "name":"tortoise", "size_w":300, "size_h":300},
+        {id: 6, path: require("../../assets/animals/anaconda_PNG13.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 15, path: require("../../assets/animals/cobra_PNG54.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 19, path: require("../../assets/animals/crocodile_PNG13179.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 40, path: require("../../assets/animals/frog_PNG3833.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 42, path: require("../../assets/animals/gecko_PNG70.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 58, path: require("../../assets/animals/iguana_PNG43.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 70, path: require("../../assets/animals/lizard_PNG15.png"), "name":"Default", "size_w":300, "size_h":300}
+        
+       
+        
         ]
     ],
     [6, 
@@ -165,6 +199,10 @@ const pattern = [
         {id:7,path:require("../../assets/clownfish.png"), "name":"clownfish", "size_w":300, "size_h":300},
         {id:8,path:require("../../assets/yellowfish.png"), "name":"yellowfish", "size_w":300, "size_h":300},
         {id:9,path:require("../../assets/dolphin.png"), "name":"dolphin", "size_w":300, "size_h":300},
+        {id: 28, path: require("../../assets/animals/dolphin_PNG9127.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 46, path: require("../../assets/animals/goldfish_PNG64.png"), "name":"Default", "size_w":300, "size_h":300}
+        
+        
         ]
     ],
     [7, 
@@ -172,12 +210,165 @@ const pattern = [
         {id:1,path:require("../../assets/rhino.png"), "name":"rhino", "size_w":300, "size_h":300},
         {id:2,path:require("../../assets/elephant.png"), "name":"elephant", "size_w":300, "size_h":300},
         {id:3,path:require("../../assets/hippo.png"), "name":"hippo", "size_w":300, "size_h":300},
-        {id:4,path:require("../../assets/pig.png"), "name":"pig", "size_w":300, "size_h":300}
+        {id:4,path:require("../../assets/pig.png"), "name":"pig", "size_w":300, "size_h":300},
+        {id: 32, path: require("../../assets/animals/elephants_PNG18808.png"), "name":"Default", "size_w":300, "size_h":300}
+        ]
+    ],
+    [8, 
+        [
+        {id: 2, path: require("../../assets/animals/arctic_fox_PNG41385.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 3, path: require("../../assets/animals/badger_PNG16.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 4, path: require("../../assets/animals/bat_PNG9.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 5, path: require("../../assets/animals/bear_PNG1184.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 6, path: require("../../assets/animals/beaver_PNG58.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 8, path: require("../../assets/animals/bison_PNG92408.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 9, path: require("../../assets/animals/boar_PNG12.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 10, path: require("../../assets/animals/bulldog_PNG44.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 11, path: require("../../assets/animals/camel_PNG2920.png"), "name":"Default", "size_w":300, "size_h":300},
+       
+        {id: 16, path: require("../../assets/animals/cock_PNG36.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 17, path: require("../../assets/animals/cow_PNG2127.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 18, path: require("../../assets/animals/crab_PNG46.png"), "name":"Default", "size_w":300, "size_h":300},
+            
+        {id: 22, path: require("../../assets/animals/dachshund_PNG62.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 23, path: require("../../assets/animals/dalmatian_PNG42.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 24, path: require("../../assets/animals/deer_PNG10176.png"), "name":"Default", "size_w":300, "size_h":300},
+         
+        {id: 27, path: require("../../assets/animals/dog_PNG149.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 29, path: require("../../assets/animals/donkey_PNG45.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        
+        {id: 36, path: require("../../assets/animals/ferret_PNG17112.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 39, path: require("../../assets/animals/fox_PNG370.png"), "name":"Default", "size_w":300, "size_h":300},
+         
+        {id: 41, path: require("../../assets/animals/fur_PNG35.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 43, path: require("../../assets/animals/german_shepherd_PNG67.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 44, path: require("../../assets/animals/giraffe_PNG13518.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 45, path: require("../../assets/animals/goat_PNG13146.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 48, path: require("../../assets/animals/gorilla_PNG18712.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 50, path: require("../../assets/animals/harbor_seal_PNG1.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 51, path: require("../../assets/animals/hedgehog_PNG13.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 53, path: require("../../assets/animals/hippo_PNG16.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 54, path: require("../../assets/animals/horse_PNG298.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 56, path: require("../../assets/animals/husky_PNG35.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 57, path: require("../../assets/animals/hyena_PNG58.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 59, path: require("../../assets/animals/jackal_PNG43.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 60, path: require("../../assets/animals/jaguar_PNG20749.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 61, path: require("../../assets/animals/jellyfish_PNG41.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 62, path: require("../../assets/animals/kangaroo_PNG23.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 63, path: require("../../assets/animals/killer_whale_PNG46.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 65, path: require("../../assets/animals/koala_PNG11.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 66, path: require("../../assets/animals/labrador_retriever_PNG83.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 67, path: require("../../assets/animals/lemur_PNG33.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 68, path: require("../../assets/animals/leopard_PNG14821.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 69, path: require("../../assets/animals/lion_PNG573.png"), "name":"Default", "size_w":300, "size_h":300},
+
+        {id: 71, path: require("../../assets/animals/lobster_PNG14262.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 72, path: require("../../assets/animals/lynx_PNG8.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 73, path: require("../../assets/animals/mammoth_PNG29.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 74, path: require("../../assets/animals/mole_PNG8.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 75, path: require("../../assets/animals/monkey_PNG18737.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 76, path: require("../../assets/animals/moose_PNG63.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 78, path: require("../../assets/animals/octopus_PNG16.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 79, path: require("../../assets/animals/orangutan_PNG22.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 81, path: require("../../assets/animals/owl_PNG46.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 82, path: require("../../assets/animals/panda_PNG33.png"), "name":"Default", "size_w":300, "size_h":300},
+        
+        {id: 85, path: require("../../assets/animals/peacock_PNG26.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 86, path: require("../../assets/animals/pelican_PNG8.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 87, path: require("../../assets/animals/pigeon_PNG3417.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 89, path: require("../../assets/animals/pinguin_PNG12.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 88, path: require("../../assets/animals/pig_PNG2195.png"), "name":"Default", "size_w":300, "size_h":300},
+       
+        {id: 90, path: require("../../assets/animals/polar_bear_PNG23526.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 91, path: require("../../assets/animals/pony_PNG7.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 93, path: require("../../assets/animals/raccoon_PNG16974.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 94, path: require("../../assets/animals/rat_mouse_PNG2467.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 95, path: require("../../assets/animals/raven_PNG91.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 96, path: require("../../assets/animals/rhino_PNG19.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 97, path: require("../../assets/animals/samoyed_dog_PNG30.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 98, path: require("../../assets/animals/seahorse_PNG2.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 99, path: require("../../assets/animals/seashell_PNG53.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 100, path: require("../../assets/animals/shark_PNG18811.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 101, path: require("../../assets/animals/sheep_PNG2176.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 102, path: require("../../assets/animals/shrimps_PNG18277.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 103, path: require("../../assets/animals/skunk_PNG18.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 104, path: require("../../assets/animals/sloth_PNG64.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 105, path: require("../../assets/animals/snails_PNG13206.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 107, path: require("../../assets/animals/sparrow_PNG11.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 108, path: require("../../assets/animals/sperm_whale_PNG15.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 109, path: require("../../assets/animals/squid_PNG22.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 110, path: require("../../assets/animals/squirrel_PNG15794.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 111, path: require("../../assets/animals/starfish_PNG34.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 112, path: require("../../assets/animals/stingray_PNG30.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 113, path: require("../../assets/animals/stork_PNG47.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 114, path: require("../../assets/animals/swallow_PNG39.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 115, path: require("../../assets/animals/swan_PNG4.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 116, path: require("../../assets/animals/swordfish_PNG36.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 117, path: require("../../assets/animals/tiger_PNG546.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 118, path: require("../../assets/animals/turkey_PNG58605.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 119, path: require("../../assets/animals/turtle_PNG60.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 120, path: require("../../assets/animals/walrus_PNG3.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 121, path: require("../../assets/animals/whale_PNG19262.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 122, path: require("../../assets/animals/wolf_PNG347.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 123, path: require("../../assets/animals/woodpecker_PNG39.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 124, path: require("../../assets/animals/zebra_PNG8972.png"), "name":"Default", "size_w":300, "size_h":300}
+        ]
+    ],
+    [9,
+        [
+        {id: 1, path: require("../../assets/fruits/almond_PNG62.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 2, path: require("../../assets/fruits/apple_PNG12507.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 3, path: require("../../assets/fruits/apricot_PNG12656.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 4, path: require("../../assets/fruits/avocado_PNG15505.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 6, path: require("../../assets/fruits/berberis_PNG5.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 7, path: require("../../assets/fruits/blackberry_PNG45.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 8, path: require("../../assets/fruits/blueberries_PNG74.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 9, path: require("../../assets/fruits/cacao_PNG12.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 10, path: require("../../assets/fruits/cashew_PNG51.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 11, path: require("../../assets/fruits/cherry_PNG635.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 12, path: require("../../assets/fruits/coconut_PNG9162.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 13, path: require("../../assets/fruits/dates_PNG11071.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 14, path: require("../../assets/fruits/envelope.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 15, path: require("../../assets/fruits/grapefruit_PNG15266.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 16, path: require("../../assets/fruits/grape_PNG522.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 17, path: require("../../assets/fruits/guava_PNG60.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 18, path: require("../../assets/fruits/hazelnut_PNG44.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 19, path: require("../../assets/fruits/juice_PNG7182.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 21, path: require("../../assets/fruits/lemon_PNG25276.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 22, path: require("../../assets/fruits/lime_PNG45.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 23, path: require("../../assets/fruits/mandarin_PNG51.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 24, path: require("../../assets/fruits/mango_PNG9166.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 25, path: require("../../assets/fruits/melon_PNG14383.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 26, path: require("../../assets/fruits/orange_PNG752.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 27, path: require("../../assets/fruits/papaya_PNG52.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 28, path: require("../../assets/fruits/peach_PNG4893.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 29, path: require("../../assets/fruits/peanut_PNG43.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 30, path: require("../../assets/fruits/pear_PNG3466.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 31, path: require("../../assets/fruits/persimmon_PNG9191.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 32, path: require("../../assets/fruits/pineapple_PNG2733.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 33, path: require("../../assets/fruits/pine_nuts_PNG21.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 34, path: require("../../assets/fruits/pistachio_PNG28.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 35, path: require("../../assets/fruits/plum_PNG8670.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 36, path: require("../../assets/fruits/pomegranate_PNG8650.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 37, path: require("../../assets/fruits/pumpkin_seeds_PNG42.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 38, path: require("../../assets/fruits/raspberry_PNG5076.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 39, path: require("../../assets/fruits/rose_hip_PNG30.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 40, path: require("../../assets/fruits/strawberry_PNG2595.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 41, path: require("../../assets/fruits/sunflower_seeds_PNG42.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 42, path: require("../../assets/fruits/walnut_PNG22.png"), "name":"Default", "size_w":300, "size_h":300},
+        {id: 43, path: require("../../assets/fruits/watermelon_PNG242.png"), "name":"Default", "size_w":300, "size_h":300}
         ]
     ]
 ];
 
         
 export default pattern;                
-        
         

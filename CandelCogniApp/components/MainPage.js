@@ -1,29 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import CustomButton from './buttons/button'
+import { View, Text } from 'react-native';
+import CustomButton from './buttons/button';
+import globalStyles from '../styles/globalStyles';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#696969',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
+
 
 const MainPage = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>¡Bienvenido a MEMO!</Text>
-      <Text style={styles.text}> </Text>
+    <View style={globalStyles.whitecontainer}>
+      <Text style={globalStyles.title}>¡Bienvenido a MEMO!</Text>
+      <Text style={globalStyles.text}> </Text>
       
       <CustomButton
         title="Jugar"
-        onPress={() => navigation.navigate('MoreCards')}
+        onPress={() => navigation.navigate('WithImages')}
         
       />
     </View>

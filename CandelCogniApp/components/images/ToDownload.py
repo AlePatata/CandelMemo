@@ -1,6 +1,11 @@
+import os
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+
 # URL de la página
 # url = "https://pngimg.com/images/objects/"
-url = "https://pngimg.com/images/animals/"
+url = "https://pngimg.com/images/fruits/"
 # Realiza la solicitud GET a la página
 response = requests.get(url)
 
@@ -13,7 +18,7 @@ if response.status_code == 200:
     img_tags = soup.find_all('img')
 
     # Directorio donde se guardarán las imágenes
-    output_directory = 'descargas'
+    output_directory = 'fruits'
     os.makedirs(output_directory, exist_ok=True)
 
     # Descarga cada imagen encontrada

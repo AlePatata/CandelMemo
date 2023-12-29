@@ -12,7 +12,7 @@ const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG
 const FourCards = ({navigation}) => {
 
     const [cards, setCards] = useState([]);
-    const [qcards, setQCards] = useState([withoutImage, withoutImage, withoutImage]);
+    const [qcards, setQCards] = useState([withoutImage, withoutImage, withoutImage, withoutImage]);
     const [targetImage, setTargetImage] = useState(withoutImage);
     const [score, setScore] = useState(0);
     const [errors, setErrors] = useState(0);

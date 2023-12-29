@@ -336,7 +336,6 @@ const pattern = [
         {id: 11, path: require("../../assets/fruits/cherry_PNG635.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 12, path: require("../../assets/fruits/coconut_PNG9162.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 13, path: require("../../assets/fruits/dates_PNG11071.png"), "name":"Default", "size_w":300, "size_h":300},
-        {id: 14, path: require("../../assets/fruits/envelope.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 15, path: require("../../assets/fruits/grapefruit_PNG15266.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 16, path: require("../../assets/fruits/grape_PNG522.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 17, path: require("../../assets/fruits/guava_PNG60.png"), "name":"Default", "size_w":300, "size_h":300},

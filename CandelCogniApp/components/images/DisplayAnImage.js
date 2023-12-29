@@ -19,6 +19,7 @@ const DisplayAnImage = ({ source }) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 0,
+    paddingHorizontal: 40,
   },
   tinyLogo: {
     width: 100,

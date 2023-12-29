@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, Modal, TouchableOpacity} from 'react-native';
 import CustomButton from './buttons/button';
 import globalStyles from '../styles/globalStyles';
 
 
-
 const MainPage = ({ navigation }) => {
+  
+
   return (
     <View style={globalStyles.whitecontainer}>
       <Text style={globalStyles.title}>¡Bienvenido a MEMO!</Text>
@@ -13,7 +14,9 @@ const MainPage = ({ navigation }) => {
       
       <CustomButton
         title="Jugar"
-        onPress={() => navigation.navigate('WithImages')}
+        onPress={() => {
+          navigation.navigate('WithImages')
+        }}
         width='70%'
       />
       <View style={{ marginVertical: 10 }} /> 

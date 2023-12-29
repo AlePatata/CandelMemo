@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Animated} from 'react-native';
 import colors from './colors';
 
 export default styles = StyleSheet.create({
@@ -37,7 +37,19 @@ export default styles = StyleSheet.create({
     borderColor: 'orange',
   },
   text: {
+    textAlign: 'center',
     color: '#696969',
     fontSize: 20,
-  }
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
 });

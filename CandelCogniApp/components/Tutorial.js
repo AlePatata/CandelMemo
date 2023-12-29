@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, TouchableOpacity, Animated, Easing} from 'react-native';
 import CustomButton from './buttons/button'
 import pattern from './images/pattern';
@@ -99,8 +99,17 @@ const Tutorial = ({ navigation }) => {
     return (
         <View
             style={globalStyles.whitecontainer} onTouchStart={handleScreenPress}>
+            {showInstructions && (
+            <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={globalStyles.text}> Este es un juego de memoria. Se mostrarán imágenes, 
+                de las cuales debes recordar su ubicación, 
+                para luego seleccionar la imagen correcta.
+                Pulsa la pantalla para continuar</Text>
+                
+            </TouchableOpacity>
+            )}
             <Text style={globalStyles.title}>Encuentra la imagen</Text>
-            
+            <View style={{ marginVertical: 10 }} /> 
             <View
                 style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
                 {cards.map((imagen, index) => (
@@ -112,44 +121,39 @@ const Tutorial = ({ navigation }) => {
                     </TouchableOpacity> 
                 ))}
                 
-        </View>
-        {!userReady && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
-        {feedbackMessage !== '' && <Text>{feedbackMessage}</Text>}
-        {userReady && targetImage && (
-            <View style={{marginTop: 10}}>
-                <Text style={globalStyles.text}>Imagen buscada:</Text>
-                <DisplayAnImage source={targetImage.path}  />
-            </View> 
-        )}
-
-        {showInstructions && (
-            <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>¡Instrucciones! Toque para continuar</Text>
-            </TouchableOpacity>
-        )}
-        <Text style={globalStyles.text}>Puntuación: {score}</Text>
-        <Text style={globalStyles.text}>Errores: {errors}</Text>
-        <Animated.View
-            style={{
+            </View>
+            <Animated.View style={{
                 opacity: animatedValue, // por ejemplo, animar la opacidad
                 transform: [
                     {
                     translateY: animatedValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0, 100], // animar en el eje Y de 0 a 100
+                        outputRange: [0, 10], // animar en el eje Y de 0 a 100
                     }),
                     },
                 ],
-            }}
-        >
-            <Text>¡Animación en React Native!</Text>
-        </Animated.View>
-        <CustomButton
-            title="Terminal tutorial"
-            onPress={() => navigation.navigate('MainPage')}
-            width='70%'
-        />
-    </View>
+            }}>
+                {!userReady && <Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
+            </Animated.View>
+            <View style={{ marginVertical: 10 }} /> 
+            {!userReady && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
+            
+            {!userReady && feedbackMessage !== '' && <Text>{feedbackMessage}</Text>}
+            {userReady && targetImage && (
+                <View style={{marginTop: 10}}>
+                    <Text style={globalStyles.text}>Imagen buscada:</Text>
+                    <DisplayAnImage source={targetImage.path}  />
+                </View> 
+            )}
+
+
+            <View style={{ marginVertical: 40 }} /> 
+            <CustomButton
+                title="Terminal tutorial"
+                onPress={() => navigation.navigate('MainPage')}
+                width='70%'
+            />
+        </View>
     )
 }
 

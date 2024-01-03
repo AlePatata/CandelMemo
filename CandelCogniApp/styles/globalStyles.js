@@ -14,6 +14,22 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  orangecontainer:{
+    backgroundColor: colors.yellow,
+    justifyContent: 'center', 
+    alignItems: 'center',
+    maxHeight:'80%',
+    maxWidth:'90%',
+    borderRadius: 10,
+    padding: 10,
+  },
+  insiderText:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontWeight: '900',
+    textAlign: 'center',
+    color: colors.white
+  },
   title: {
     fontSize: 28,
     fontWeight: '900',

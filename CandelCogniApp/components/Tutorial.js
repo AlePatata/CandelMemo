@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Animated, Easing} from 'react-native';
+import {View, Text, TouchableOpacity, Animated, Easing, Modal} from 'react-native';
 import CustomButton from './buttons/button'
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
@@ -100,14 +100,21 @@ const Tutorial = ({ navigation }) => {
         <View
             style={globalStyles.whitecontainer} onTouchStart={handleScreenPress}>
             {showInstructions && (
-            <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={globalStyles.text}> Este es un juego de memoria. Se mostrarán imágenes, 
-                de las cuales debes recordar su ubicación, 
-                para luego seleccionar la imagen correcta.
-                Pulsa la pantalla para continuar</Text>
-                
-            </TouchableOpacity>
-            )}
+                <Modal
+                animationType="slide"
+                presentationStyle='formSheet'>
+                    <View style={globalStyles.whitecontainer}>
+                        <View style={globalStyles.orangecontainer}>
+                            <Text style={globalStyles.insiderText}> Este es un juego de memoria. Se mostrarán imágenes, 
+                                de las cuales debes recordar su ubicación, 
+                                para luego seleccionar la imagen correcta.
+                                Pulsa la pantalla para continuar
+                            </Text>
+                        </View>
+                    </View>
+                </Modal>
+                )
+            }
             <Text style={globalStyles.title}>Encuentra la imagen</Text>
             <View style={{ marginVertical: 10 }} /> 
             <View

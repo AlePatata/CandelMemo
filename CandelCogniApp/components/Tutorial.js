@@ -120,12 +120,17 @@ const Tutorial = ({ navigation }) => {
             <View
                 style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
                 {cards.map((imagen, index) => (
+                    <DisplayAnImage 
+                        source={imagen.path} onPress={handleCardClick(index)}/>
+                    
+                    /*
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
                         onPress={() => handleCardClick(index)}>
                         {imagen && <DisplayAnImage source={imagen.path}/>}
                     </TouchableOpacity> 
+                    */
                 ))}
                 
             </View>

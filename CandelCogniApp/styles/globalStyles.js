@@ -41,6 +41,27 @@ export default styles = StyleSheet.create({
     width: 90,
     height: 90,
   },
+  container: {
+    paddingTop: 0,
+    paddingHorizontal: 40,
+  },
+  cardWrapper: {
+    width: 100,
+    height: 100,
+    perspective: 1000, // Establece la perspectiva para crear un efecto 3D
+  },
+  tinyLogo: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backfaceVisibility: 'hidden', // Oculta la cara posterior durante la animación
+  },
+  cardFront: {
+    // Estilos adicionales para la cara frontal de la carta
+  },
+  cardBack: {
+    transform: [{ rotateY: '180deg' }], // Gira la cara posterior para que inicialmente esté oculta
+  },
   card: {
     backgroundColor: 'white',
     height: 110,

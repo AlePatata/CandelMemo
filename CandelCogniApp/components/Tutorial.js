@@ -27,6 +27,7 @@ const Tutorial = ({ navigation }) => {
     const images = pattern.find(item => item[0] === level )[1];
 
     const animatedValue = useRef(new Animated.Value(0)).current;
+    const rotationValue = useRef(new Animated.Value(0)).current;
 
     const [userReady, setUserReady] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
@@ -59,17 +60,25 @@ const Tutorial = ({ navigation }) => {
                   randomimages.slice(index + 1).some((otherImage) => image.id === otherImage.id)
             )
         );
-        setCards(randomimages);
-        setQCards(randomimages);
-        setTargetImage(
-            randomimages[Math.floor(Math.random() * randomimages.length)],
-        );
+        Animated.timing(rotationValue, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }).start(() => {
+            setCards(randomimages);
+            setQCards(randomimages);
+            setTargetImage(
+                randomimages[Math.floor(Math.random() * randomimages.length)],
+            );
+            rotationValue.setValue(0);
+        });
         
-        /*console.log(
+        console.log(
             '\n----------------randomimages--------------\n ',
             randomimages,
             '\n-----------------------------------------\n',
-        );*/
+        );
         setUserReady(false);
     }, 
     [score, errors]); // Dependencias de puntuación y errores para iniciar nuevos niveles
@@ -98,16 +107,26 @@ const Tutorial = ({ navigation }) => {
             
         };
         
-        const startNewLevel = () => {
+    const startNewLevel = () => {
+        Animated.timing(rotationValue, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.linear,
+            useNativeDriver: true,
+        }).start(() => {
             setCards([withoutImage, withoutImage, withoutImage]); // Tarjetas sin iconos
-            setUserReady(true);
+            rotationValue.setValue(0);
+        });    
+        setUserReady(true);
     };
+    const rotateCard = rotationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '180deg'],
+      });
 
     return (
 
-        <View
-            style={globalStyles.whitecontainer} >
-
+        <View style={globalStyles.whitecontainer} >
             <TouchableOpacity onPress={() => navigation.navigate('MainPage')} style={globalStyles.supder}>
                 <FontAwesomeIcon icon={faCircleXmark} size={32} color={colors.black}/>
             </TouchableOpacity>
@@ -145,7 +164,15 @@ const Tutorial = ({ navigation }) => {
                         key={index}
                         style={globalStyles.card}
                         onPress={() => handleCardClick(index)}>
-                        {imagen && <DisplayAnImage source={imagen.path}/>}
+                        {imagen && <Animated.Image
+                            style={[
+                            globalStyles.tinyLogo,
+                            globalStyles.card,
+                            { transform: [{ rotateY: rotateCard }] },
+                            ]}
+                            source={imagen.path}
+                            resizeMode="contain"
+                        />}
                     </TouchableOpacity> 
                     
                 ))}
@@ -171,7 +198,15 @@ const Tutorial = ({ navigation }) => {
             {userReady && targetImage && (
                 <View style={{marginTop: 10}}>
                     <Text style={globalStyles.text}>Imagen buscada:</Text>
-                    <DisplayAnImage source={targetImage.path}  />
+                    <Animated.Image
+                            style={[
+                            globalStyles.tinyLogo,
+                            globalStyles.card,
+                            { transform: [{ rotateY: rotateCard }] },
+                            ]}
+                            source={targetImage.path}
+                            resizeMode="contain"
+                        />
                 </View> 
             )}
             

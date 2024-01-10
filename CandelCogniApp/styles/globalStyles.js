@@ -89,4 +89,33 @@ export default styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
   },
+  supder: { 
+    flex: 1, 
+    position: 'absolute', 
+    top: '1%',
+    right:'5%', 
+    padding: 0  
+  },
+  supizq: { 
+    flex: 1, 
+    position: 'absolute', 
+    top: 10,
+    right:'85%', 
+    padding: 0  
+  },
+  Icontainer: {
+    backgroundColor: '#FFB65E',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    maxHeight:'80%',
+    maxWidth:'90%',
+    borderRadius: 15,
+    padding: 20,
+  },
+  IinsiderText:{
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'justify',
+    color: colors.darkGray
+  },
 });

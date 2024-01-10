@@ -4,6 +4,13 @@ import CustomButton from './buttons/button'
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
 import globalStyles from '../styles/globalStyles';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {
+    faCircleXmark,
+    faCircleQuestion,
+    faCircle
+} from '@fortawesome/free-solid-svg-icons';
+import colors from '../styles/colors';
 
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
@@ -97,20 +104,33 @@ const Tutorial = ({ navigation }) => {
     };
 
     return (
+
         <View
-            style={globalStyles.whitecontainer} onTouchStart={handleScreenPress}>
+            style={globalStyles.whitecontainer} >
+
+            <TouchableOpacity onPress={() => navigation.navigate('MainPage')} style={globalStyles.supder}>
+                <FontAwesomeIcon icon={faCircleXmark} size={32} color={colors.black}/>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => setShowInstructions(true)} style={globalStyles.supizq}>
+                <FontAwesomeIcon icon={faCircleQuestion} size={32} color={colors.black}/>
+            </TouchableOpacity>
+            
             {showInstructions && (
                 <Modal
                 animationType="slide"
                 presentationStyle='formSheet'>
                     <View style={globalStyles.whitecontainer}>
-                        <View style={globalStyles.orangecontainer}>
-                            <Text style={globalStyles.insiderText}> Este es un juego de memoria. Se mostrarán imágenes, 
+                        <View style={[globalStyles.Icontainer]}>
+                            <Text style={globalStyles.IinsiderText}> Instrucciones: {'\n'}
+                                Este es un juego de memoria. Se mostrarán imágenes, 
                                 de las cuales debes recordar su ubicación, 
                                 para luego seleccionar la imagen correcta.
                                 Pulsa la pantalla para continuar
                             </Text>
                         </View>
+                        <View marginVertical={'5%'}/>
+                        <CustomButton title={"Continuar"} onPress={() => setShowInstructions(false)} width='40%'/>
                     </View>
                 </Modal>
                 )
@@ -141,7 +161,7 @@ const Tutorial = ({ navigation }) => {
                     }),
                     },
                 ],
-            }}>
+                }}>
                 {!userReady && <Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
             </Animated.View>
             <View style={{ marginVertical: 10 }} /> 
@@ -154,14 +174,8 @@ const Tutorial = ({ navigation }) => {
                     <DisplayAnImage source={targetImage.path}  />
                 </View> 
             )}
-
-
-            <View style={{ marginVertical: 40 }} /> 
-            <CustomButton
-                title="Terminal tutorial"
-                onPress={() => navigation.navigate('MainPage')}
-                width='70%'
-            />
+            
+            
         </View>
     )
 }

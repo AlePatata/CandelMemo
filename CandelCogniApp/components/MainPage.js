@@ -1,16 +1,29 @@
-import React, {useState} from 'react';
-import { View, Text, Modal, TouchableOpacity} from 'react-native';
+import React, {useState, useRef} from 'react';
+import { View, Text, Animated} from 'react-native';
 import CustomButton from './buttons/button';
 import globalStyles from '../styles/globalStyles';
 
 
 const MainPage = ({ navigation }) => {
   
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
   return (
     <View style={globalStyles.whitecontainer}>
       <Text style={globalStyles.title}>¡Bienvenido a MEMO!</Text>
-      <Text style={globalStyles.text}> </Text>
+      <Animated.View style={{
+                opacity: animatedValue, // por ejemplo, animar la opacidad
+                transform: [
+                    {
+                    translateY: animatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0, 10], // animar en el eje Y de 0 a 100
+                    }),
+                    },
+                ],
+                }}>
+                {<Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
+            </Animated.View>
       
       <CustomButton
         title="Jugar"

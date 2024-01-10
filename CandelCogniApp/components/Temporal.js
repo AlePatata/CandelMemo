@@ -36,7 +36,7 @@ const Temporal = ({navigation}) => {
     const rotateCard = rotationValue.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '180deg'],
-      });
+    });
 
     return (
         <View style={globalStyles.whitecontainer}>

@@ -77,6 +77,7 @@ export default styles = StyleSheet.create({
     textAlign: 'center',
     color: '#696969',
     fontSize: 20,
+    margin: 15
   },
   modalOverlay: {
     flex: 1,
@@ -99,8 +100,8 @@ export default styles = StyleSheet.create({
   supizq: { 
     flex: 1, 
     position: 'absolute', 
-    top: 10,
-    right:'85%', 
+    top: '1%',
+    left:'5%', 
     padding: 0  
   },
   Icontainer: {

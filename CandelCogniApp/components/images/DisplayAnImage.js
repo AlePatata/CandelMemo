@@ -5,7 +5,7 @@ import globalStyles from '../../styles/globalStyles';
 const DisplayAnImage = ({ source , onPress }) => {
   const imageSource = source ? source : require('../../assets/target.png');
   const backImageSource = require('../../assets/target.png'); // Reemplaza con la imagen de la parte posterior de la carta
-
+ /*
 
   // Utiliza useRef para crear referencias a las animaciones
   const flipAnimation = useRef(new Animated.Value(0)).current;
@@ -32,7 +32,7 @@ const DisplayAnImage = ({ source , onPress }) => {
   const rotateStyle = {
     transform: [{ rotateY: interpolatedRotateAnimation }],
   };
-
+  */
   return (
     <View style={globalStyles.container}>
       <TouchableOpacity onPress={onPress}>

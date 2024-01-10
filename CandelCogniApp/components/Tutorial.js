@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Animated, Easing, Modal} from 'react-native';
+import {View, Text, TouchableOpacity, Animated, Easing, Modal, Image} from 'react-native';
 import CustomButton from './buttons/button'
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
@@ -98,13 +98,16 @@ const Tutorial = ({ navigation }) => {
             targetImage,
             '\n----------------------------------\n',
         );
+        setCards(qcards);
         setPause(true);
         // Verificar si el índice seleccionado es correcto
         if (qcards[clickedIndex].id === targetImage.id) {
-            setScore(score + 1); // Aumentar la puntuación si es correcto
+            setTimeout(()=> {setScore(score + 1); setPause(false) },3000)
+           
             setFeedbackMessage('¡Correcto!');
         } else {
-            setErrors(errors + 1); // Aumentar el número de errores
+            setTimeout(()=> {setScore(score + 1); setPause(false) },3000)
+            
             setFeedbackMessage('¡Incorrecto!');
         }   
     };
@@ -161,22 +164,23 @@ const Tutorial = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
-                        onPress={() => handleCardClick(index)}>
-                        {imagen && <Animated.Image
+                        onPress={() => { if(userReady && !pause) handleCardClick(index)}}>
+                        {imagen && <Image
                             style={[
                             globalStyles.tinyLogo,
                             globalStyles.card,
-                            { transform: [{ rotateY: rotateCard }] },
+                            //{borderColor:[]}
                             ]}
                             source={imagen.path}
                             resizeMode="contain"
                         />}
+                        
                     </TouchableOpacity> 
                 ))}
                 
             </View>
             <Animated.View style={{
-                opacity: animatedValue, // por ejemplo, animar la opacidad
+                opacity: animatedValue, 
                 transform: [
                     {
                     translateY: animatedValue.interpolate({
@@ -189,18 +193,16 @@ const Tutorial = ({ navigation }) => {
                 {!userReady && <Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
             </Animated.View>
             <View style={{ marginVertical: 10 }} /> 
-            {!userReady && !pause && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
+            {!userReady  && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
             
-            {pause && feedbackMessage !== '' && <Text>{feedbackMessage}</Text>}
-            {pause && <CustomButton title="Continuar" onPress={ () => setPause(false) } width='30%' height={45}/>}
+            {pause && feedbackMessage !== '' && <Text style={globalStyles.text}>{feedbackMessage}</Text>}
             {userReady && targetImage && (
                 <View style={{marginTop: '0%'}}>
                     <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-                    <Animated.Image
+                    <Image
                             style={[
                                 {alignSelf: "center"},
                                 globalStyles.card,
-                                { transform: [{ rotateY: rotateCard }] },
                             ]}
                             source={targetImage.path}
                             resizeMode="contain"

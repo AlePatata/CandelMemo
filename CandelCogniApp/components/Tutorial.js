@@ -7,7 +7,6 @@ import globalStyles from '../styles/globalStyles';
 
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
-
 const Tutorial = ({ navigation }) => {
 
     const [cards, setCards] = useState([]);
@@ -23,7 +22,6 @@ const Tutorial = ({ navigation }) => {
     const animatedValue = useRef(new Animated.Value(0)).current;
 
     const [userReady, setUserReady] = useState(false);
-
     const [showInstructions, setShowInstructions] = useState(true);
 
     const handleScreenPress = () => {
@@ -49,51 +47,53 @@ const Tutorial = ({ navigation }) => {
             () => images[Math.floor(Math.random() * images.length)],
             );
         } while (
-            randomimages[0].id === randomimages[1].id ||
-            randomimages[0].id === randomimages[2].id ||
-            randomimages[1].id === randomimages[2].id
+            randomimages.some(
+                (image, index) =>
+                  randomimages.slice(index + 1).some((otherImage) => image.id === otherImage.id)
+            )
         );
         setCards(randomimages);
         setQCards(randomimages);
         setTargetImage(
             randomimages[Math.floor(Math.random() * randomimages.length)],
         );
-        console.log(
+        
+        /*console.log(
             '\n----------------randomimages--------------\n ',
             randomimages,
             '\n-----------------------------------------\n',
-        );
+        );*/
         setUserReady(false);
     }, 
-    
     [score, errors]); // Dependencias de puntuación y errores para iniciar nuevos niveles
         
     const handleCardClick = clickedIndex => {
-    console.log(
-        '\n----------------IMAGE--------------\n ',
-        qcards[clickedIndex],
-        '\n----------------------------------\n',
-    );
-    console.log(
-        '\n----------------TARGETIMAGE--------------\n ',
-        targetImage,
-        '\n----------------------------------\n',
-    );
-    
-    // Verificar si el índice seleccionado es correcto
-    if (qcards[clickedIndex].id === targetImage.id) {
-        setScore(score + 1); // Aumentar la puntuación si es correcto
-        setFeedbackMessage('¡Correcto!');
-    } else {
-        setErrors(errors + 1); // Aumentar el número de errores
-        setFeedbackMessage('¡Incorrecto!');
-        }
+
+        console.log(
+            '\n----------------IMAGE--------------\n ',
+            qcards[clickedIndex],
+            '\n----------------------------------\n',
+        );
+        console.log(
+            '\n----------------TARGETIMAGE--------------\n ',
+            targetImage,
+            '\n----------------------------------\n',
+        );
         
-    };
-    
-    const startNewLevel = () => {
-        setCards([withoutImage, withoutImage, withoutImage]); // Tarjetas sin iconos
-        setUserReady(true);
+        // Verificar si el índice seleccionado es correcto
+        if (qcards[clickedIndex].id === targetImage.id) {
+            setScore(score + 1); // Aumentar la puntuación si es correcto
+            setFeedbackMessage('¡Correcto!');
+        } else {
+            setErrors(errors + 1); // Aumentar el número de errores
+            setFeedbackMessage('¡Incorrecto!');
+            }
+            
+        };
+        
+        const startNewLevel = () => {
+            setCards([withoutImage, withoutImage, withoutImage]); // Tarjetas sin iconos
+            setUserReady(true);
     };
 
     return (
@@ -120,17 +120,14 @@ const Tutorial = ({ navigation }) => {
             <View
                 style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
                 {cards.map((imagen, index) => (
-                    <DisplayAnImage 
-                        source={imagen.path} onPress={handleCardClick(index)}/>
                     
-                    /*
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
                         onPress={() => handleCardClick(index)}>
                         {imagen && <DisplayAnImage source={imagen.path}/>}
                     </TouchableOpacity> 
-                    */
+                    
                 ))}
                 
             </View>

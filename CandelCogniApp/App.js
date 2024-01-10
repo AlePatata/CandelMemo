@@ -6,6 +6,7 @@ import MainPage from './components/MainPage';
 import Game from './components/Game';
 import WithImages from './components/WithImages';
 import Tutorial from './components/Tutorial';
+import Temporal from './components/Temporal';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const App = () => {
         <Stack.Screen name="Game" component={Game} />
         <Stack.Screen name="WithImages" component={WithImages} />
         <Stack.Screen name="Tutorial" component={Tutorial} />
+        <Stack.Screen name="Temporal" component={Temporal} />
       </Stack.Navigator>
     </NavigationContainer>
   );

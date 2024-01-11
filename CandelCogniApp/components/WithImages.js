@@ -95,12 +95,12 @@ const WithImages = ({ navigation }) => {
       }));
 
     };
-    //Vueve a mostrar las imagenes
+    //Vuelve a mostrar las imágenes
 
     setCards(qcards);
     setTimerFlipCard(3)
 
-    //Espera un moemento antes de volver a generar una nueva lista de imagenes
+    //Espera un momento antes de volver a generar una nueva lista de imágenes
     setTimeout(() => {
       generateNewImages()     
     }, timerNextLevel*1000);
@@ -157,7 +157,8 @@ const WithImages = ({ navigation }) => {
           corrects: score,
           date: new Date(),
 
-        };
+        }; // Objeto con la información del juego
+        const Jugadas = plays; // Array con las jugadas del juego
         gameJson.push(newGame);
         await AsyncStorage.setItem('game', JSON.stringify(gameJson));
         console.log('Juego guardado');
@@ -238,7 +239,9 @@ const WithImages = ({ navigation }) => {
       <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
 
       {/* Lista de cartas */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+      {/* Muestre un view cuando hay feedback y otro cuando no*/}
+      {feedbackMessage == '' ? (
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
         {cards.map((imagen, index) => (
           <TouchableOpacity
             key={index}
@@ -254,6 +257,31 @@ const WithImages = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </View>
+      ):(
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        {cards.map((imagen, index) => (
+          <TouchableOpacity
+            key={index}
+            style={globalStyles.card}
+            onPress={() => handleCardClick(index)}>
+            {imagen == targetImage ?(
+              <Image
+                style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: 'green'}]}
+                source={imagen.path}
+                resizeMode="contain"
+              />
+            ):(
+              <Image
+              style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: 'red'}]}
+              source={imagen.path}
+              resizeMode="contain"
+            />
+            )}
+          </TouchableOpacity>
+        ))}
+      </View>
+      )}
+      
 
       <View style={{ marginVertical: 10 }} />
 

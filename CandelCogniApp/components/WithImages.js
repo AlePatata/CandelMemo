@@ -8,14 +8,7 @@ import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faXmark, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
-const withoutImage = {
-  id: 1,
-  path: require('./../assets/target.png'),
-  name: 'PNG',
-  size_w: 300,
-  size_h: 300,
-  level: 0,
-};
+const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
 const WithImages = ({ navigation }) => {
   const [cards, setCards] = useState([]);

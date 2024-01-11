@@ -107,6 +107,7 @@ const Tutorial = ({ navigation }) => {
         setCards([withoutImage, withoutImage, withoutImage]); // Reset the cards
         setUserReady(true);
     };
+
     const rotateCard = rotationValue.interpolate({ // Flip a card animation
         inputRange: [0, 1],
         outputRange: ['0deg', '180deg'],
@@ -114,7 +115,7 @@ const Tutorial = ({ navigation }) => {
 
     return (
         <View style={globalStyles.whitecontainer} > 
-            {/*X and ? Buttons*/}
+            {/* X and ? Buttons */}
             <TouchableOpacity onPress={() => navigation.navigate('MainPage')} style={[globalStyles.supder, {borderWidth: 2, borderRadius: 18}]}>
                 <FontAwesomeIcon icon={faXmark} size={20} color={colors.black}/>
             </TouchableOpacity>
@@ -129,7 +130,8 @@ const Tutorial = ({ navigation }) => {
                 presentationStyle='formSheet'>
                     <View style={globalStyles.whitecontainer}>
                         <View style={[globalStyles.Icontainer]}>
-                            <Text style={globalStyles.IinsiderText}> Instrucciones: {'\n'}
+                            <Text style={globalStyles.IinsiderText}> 
+                                Instrucciones: {'\n'}
                                 Este es un juego de memoria. Se mostrarán imágenes, 
                                 de las cuales debes recordar su ubicación, 
                                 para luego seleccionar la imagen correcta.
@@ -149,9 +151,8 @@ const Tutorial = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
-            /* You can only pick a card when the level was started and the game is not in pause.*/
                         onPress={() => { if(userReady && !pause) handleCardClick(index)}}> 
-                {/* Mechanic for show cards again and give feedback: */}              
+                        {/* Mechanic for show cards again and give feedback: */}              
                         {!pause ? (
                             <Image
                                 style={[
@@ -192,14 +193,17 @@ const Tutorial = ({ navigation }) => {
                     inputRange: [0, 1],
                     outputRange: [0, 10]}),
                     },],
-                }}> {!userReady && <Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
+                }}> 
+                {!userReady && <Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
             </Animated.View>
+
             {/* "Estoy Listo" Button: */}
             <View style={{ marginVertical: 10 }} /> 
             {!userReady  && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
             
             {/* feedback messagge: */}
             {pause && feedbackMessage !== '' && <Text style={globalStyles.text}>{feedbackMessage}</Text>}
+            
             {/* Asked Card: */}
             {userReady && targetImage && (
                 <View style={{marginTop: '0%'}}>

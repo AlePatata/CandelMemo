@@ -23,7 +23,7 @@ const WithImages = ({ navigation }) => {
   const [showInstructions, setShowInstructions] = useState(true);
 
   const [timerFlipCard, setTimerFlipCard] = useState(3);
-  const [timerNextLevel, setTimerNextLevel] = useState(5);
+  const [timerNextLevel, setTimerNextLevel] = useState(3);
 
   var level = (Math.floor(score / 1) % pattern.length) + 1;
   const images = pattern.find(item => item[0] === level)[1];
@@ -56,6 +56,18 @@ const WithImages = ({ navigation }) => {
 
   //maneja la seleccion de una carta
   const handleCardClick = clickedIndex => {
+    
+    console.log(
+      '\n----------------IMAGE--------------\n ',
+      qcards[clickedIndex],
+      '\n----------------------------------\n',
+    );
+    console.log(
+        '\n----------------TARGETIMAGE--------------\n ',
+        targetImage,
+        '\n----------------------------------\n',
+    );
+
     // Verificar si el índice seleccionado es correcto
     if (qcards[clickedIndex].id === targetImage.id) {
       setScore(score + 1);

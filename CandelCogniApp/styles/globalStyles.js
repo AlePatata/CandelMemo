@@ -122,7 +122,8 @@ export default styles = StyleSheet.create({
   resultText:{
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize:36,
+    fontSize:48,
     fontWeight:'bold',
+    color: 'black',
   },
 });

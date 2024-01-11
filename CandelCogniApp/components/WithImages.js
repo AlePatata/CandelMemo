@@ -35,6 +35,7 @@ const WithImages = ({ navigation }) => {
   const [showTimer, setShowTimer] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [showFinish, setShowFinish] = useState(false);
 
 
   //Temporizadores

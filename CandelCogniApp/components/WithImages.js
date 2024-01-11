@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Easing, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Easing, Modal, StyleSheet, Pressable } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
@@ -13,25 +13,33 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
 const WithImages = ({ navigation }) => {
+  //cartas
   const [cards, setCards] = useState([]);
   const [qcards, setQCards] = useState([withoutImage, withoutImage, withoutImage]);
   const [targetImage, setTargetImage] = useState(withoutImage);
+
+  //datos del juego
   const [score, setScore] = useState(0);
   const [errors, setErrors] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [showCards, setShowCards] = useState(false);
-  const [showFinish, setShowFinish] = useState(false);
   const [plays, setPlays] = useState([]);
   const [time, setTime] = useState(0);
   const [lastTime, setLastTime] = useState(0);
   let interval = null;
   let timeOut = null;
 
+  
+  //muestran componentes visuales
   const [userReady, setUserReady] = useState(false);
+  const [showCards, setShowCards] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
+
+  //Temporizadores
   const [timerFlipCard, setTimerFlipCard] = useState(3);
-  const [timerNextLevel, setTimerNextLevel] = useState(3);
+  const [timerNextLevel, setTimerNextLevel] = useState(7);
 
   var level = (Math.floor(score / 1) % pattern.length) + 1;
   const images = pattern.find(item => item[0] === level)[1];
@@ -41,7 +49,7 @@ const WithImages = ({ navigation }) => {
     generateNewImages()
   }, []);
 
-  //genera una lista de imagenes
+  //genera una lista de imagenes de largo X
   const generateNewImages = () => {
     setFeedbackMessage('');
     let randomimages = [];
@@ -64,7 +72,7 @@ const WithImages = ({ navigation }) => {
 
   //maneja la seleccion de una carta
   const handleCardClick = clickedIndex => {
-    
+
     console.log(
       '\n----------------IMAGE--------------\n ',
       qcards[clickedIndex],
@@ -98,11 +106,18 @@ const WithImages = ({ navigation }) => {
     //Vuelve a mostrar las imágenes
 
     setCards(qcards);
-    setTimerFlipCard(3)
+    setTimerFlipCard(3);
+    setShowTimer(false)
+    
+    setShowCards(true)
+
+    //Muestra el modal con el feedback
+    setModalVisible(!modalVisible)
 
     //Espera un momento antes de volver a generar una nueva lista de imágenes
     setTimeout(() => {
-      generateNewImages()     
+      generateNewImages()
+      startNewLevel()     
     }, timerNextLevel*1000);
   };
 
@@ -111,12 +126,14 @@ const WithImages = ({ navigation }) => {
     setTimerFlipCard(3);
     setUserReady(true);
     setLastTime(time);
+    setShowTimer(true)
 
     const interval = setInterval(() => {
       setTimerFlipCard(prevTime => {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
+           setShowTimer(false)
           clearInterval(interval);
           setCards([withoutImage, withoutImage, withoutImage]);
           return prevTime;
@@ -236,7 +253,7 @@ const WithImages = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Resultado de la seleccion */}
-      <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+      <Text style={[globalStyles.resultText,{marginBottom:100}]}>{feedbackMessage}</Text>
 
       {/* Lista de cartas */}
       {/* Muestre un view cuando hay feedback y otro cuando no*/}
@@ -286,7 +303,7 @@ const WithImages = ({ navigation }) => {
       <View style={{ marginVertical: 10 }} />
 
       {/* Contador de segundos hasta voltear las cartas */}
-      {userReady && (
+      {showTimer && (
         <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
       )}
 
@@ -298,17 +315,66 @@ const WithImages = ({ navigation }) => {
 
       {/* Pregunta por la posición de la tarjeta */}
       {userReady && targetImage && (
-        <View style={{ marginTop: '0%' }}>
           <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+      )}
+
+      {/* Tarjeta a seleccionar */}
+      {userReady && targetImage && (
           <Image
             style={[{ alignSelf: 'center' }, globalStyles.card]}
             source={targetImage.path}
             resizeMode="contain"
           />
-        </View>
       )}
+
+      {/* Modal FeedBack */}
+      {/* <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+            <Image
+              style={[{ alignSelf: 'center' }, globalStyles.card]}
+              source={targetImage.path}
+              resizeMode="contain"
+            />
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={[{color: 'white', fontSize:24}]}>Siguiente Nivel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal> */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: 'orange',
+  },
+});
 
 export default WithImages;

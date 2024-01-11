@@ -36,7 +36,6 @@ const pattern = [
         {id: 33, path: require("../../assets/objects/drum_PNG14351.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 34, path: require("../../assets/objects/electric_guitar_PNG53.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 35, path: require("../../assets/objects/electronic_cigarette_PNG18.png"), "name":"Default", "size_w":300, "size_h":300},
-        {id: 36, path: require("../../assets/objects/envelope.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 37, path: require("../../assets/objects/eraser_PNG55.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 38, path: require("../../assets/objects/falling_money_PNG15434.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 39, path: require("../../assets/objects/first_aid_kit_PNG139.png"), "name":"Default", "size_w":300, "size_h":300},
@@ -119,7 +118,6 @@ const pattern = [
         {id:6,path:require("../../assets/leopard.png"), "name":"leopard", "size_w":300, "size_h":300},
         {id:7,path:require("../../assets/bear.png"), "name":"bear", "size_w":300, "size_h":300},
         {id:8,path:require("../../assets/lynx.png"), "name":"lynx", "size_w":300, "size_h":300},
-        {id:9,path:require("../../assets/puma.png"), "name":"puma", "size_w":300, "size_h":300},
         {id:10,path:require("../../assets/racoon.png"), "name":"racoon", "size_w":300, "size_h":300},
         {id:11,path:require("../../assets/kangaroo.png"), "name":"kangaroo", "size_w":300, "size_h":300},
         {id: 12, path: require("../../assets/animals/cat_PNG99.png"), "name":"Default", "size_w":300, "size_h":300},
@@ -243,7 +241,6 @@ const pattern = [
         {id: 36, path: require("../../assets/animals/ferret_PNG17112.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 39, path: require("../../assets/animals/fox_PNG370.png"), "name":"Default", "size_w":300, "size_h":300},
          
-        {id: 41, path: require("../../assets/animals/fur_PNG35.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 43, path: require("../../assets/animals/german_shepherd_PNG67.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 44, path: require("../../assets/animals/giraffe_PNG13518.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 45, path: require("../../assets/animals/goat_PNG13146.png"), "name":"Default", "size_w":300, "size_h":300},
@@ -318,8 +315,7 @@ const pattern = [
         {id: 120, path: require("../../assets/animals/walrus_PNG3.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 121, path: require("../../assets/animals/whale_PNG19262.png"), "name":"Default", "size_w":300, "size_h":300},
         {id: 122, path: require("../../assets/animals/wolf_PNG347.png"), "name":"Default", "size_w":300, "size_h":300},
-        {id: 123, path: require("../../assets/animals/woodpecker_PNG39.png"), "name":"Default", "size_w":300, "size_h":300},
-        {id: 124, path: require("../../assets/animals/zebra_PNG8972.png"), "name":"Default", "size_w":300, "size_h":300}
+        {id: 123, path: require("../../assets/animals/woodpecker_PNG39.png"), "name":"Default", "size_w":300, "size_h":300}
         ]
     ],
     [9,

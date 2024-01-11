@@ -122,7 +122,7 @@ export default styles = StyleSheet.create({
   resultText:{
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize:40,
+    fontSize:48,
     fontWeight:'bold',
     color: 'black',
   },

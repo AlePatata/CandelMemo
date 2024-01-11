@@ -112,6 +112,7 @@ const WithImages = ({ navigation }) => {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
+           setShowTimer(false)
           clearInterval(interval);
           setCards([withoutImage, withoutImage, withoutImage]);
           return prevTime;
@@ -159,7 +160,7 @@ const WithImages = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Resultado de la seleccion */}
-      <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+      <Text style={[globalStyles.resultText,{marginBottom:100}]}>{feedbackMessage}</Text>
 
       {/* Lista de cartas */}
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>

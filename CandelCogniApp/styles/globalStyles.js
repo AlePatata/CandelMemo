@@ -119,4 +119,10 @@ export default styles = StyleSheet.create({
     textAlign: 'justify',
     color: colors.darkGray
   },
+  resultText:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize:36,
+    fontWeight:'bold',
+  },
 });

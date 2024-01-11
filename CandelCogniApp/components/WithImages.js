@@ -153,7 +153,7 @@ const WithImages = ({ navigation }) => {
         const newGame = {
           gameType: 'withImages',
           score: score,
-          incorrects: errors,
+          incorrect: errors,
           corrects: score,
           date: new Date(),
 
@@ -260,10 +260,10 @@ const WithImages = ({ navigation }) => {
       ):(
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
         {cards.map((imagen, index) => (
-          <TouchableOpacity
+          <View
             key={index}
             style={globalStyles.card}
-            onPress={() => handleCardClick(index)}>
+          >
             {imagen == targetImage ?(
               <Image
                 style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: 'green'}]}
@@ -277,7 +277,7 @@ const WithImages = ({ navigation }) => {
               resizeMode="contain"
             />
             )}
-          </TouchableOpacity>
+          </View>
         ))}
       </View>
       )}

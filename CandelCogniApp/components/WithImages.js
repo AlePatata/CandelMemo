@@ -7,6 +7,8 @@ import globalStyles from '../styles/globalStyles';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faXmark, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import FinishModal from './FinishModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
@@ -18,6 +20,12 @@ const WithImages = ({ navigation }) => {
   const [errors, setErrors] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [showCards, setShowCards] = useState(false);
+  const [showFinish, setShowFinish] = useState(false);
+  const [plays, setPlays] = useState([]);
+  const [time, setTime] = useState(0);
+  const [lastTime, setLastTime] = useState(0);
+  let interval = null;
+  let timeOut = null;
 
   const [userReady, setUserReady] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
@@ -72,11 +80,23 @@ const WithImages = ({ navigation }) => {
     if (qcards[clickedIndex].id === targetImage.id) {
       setScore(score + 1);
       setFeedbackMessage('¡Correcto!');
+      setPlays(plays.concat({ 
+        indice: plays.length,
+        resultado: 'Correcto',
+        tiempo: time-lastTime-timerFlipCard, 
+      }));
     } else {
       setErrors(errors + 1);
       setFeedbackMessage('¡Incorrecto!');
+      setPlays(plays.concat({ 
+        indice: plays.length,
+        resultado: 'Incorrecto',
+        tiempo: time-lastTime-timerFlipCard, 
+      }));
+
     };
     //Vueve a mostrar las imagenes
+
     setCards(qcards);
     setTimerFlipCard(3)
 
@@ -90,6 +110,7 @@ const WithImages = ({ navigation }) => {
   const startNewLevel = () => {
     setTimerFlipCard(3);
     setUserReady(true);
+    setLastTime(time);
 
     const interval = setInterval(() => {
       setTimerFlipCard(prevTime => {
@@ -104,8 +125,71 @@ const WithImages = ({ navigation }) => {
     }, 1000);
   };
 
+  /**
+   * Función que maneja el fin del juego
+   * @function handleFinish
+   * @returns {void}
+   * @memberof WithImages
+   * @description Muestra el modal de fin de juego y llama a la función que guarda la información del juego
+   */
+  const handleFinish = () => {
+    setShowFinish(true);
+    clearInterval(interval);
+    clearTimeout(timeOut);
+    saveGame();
+  }
+
+  /**
+   * Función que guarda la información del juego
+   * @function saveGame
+   * @returns {void}
+   * @memberof WithImages
+   * @description Guarda la información del juego en la base de datos
+   */
+  const saveGame = async() => {
+      try{
+        const game = (await AsyncStorage.getItem('game')) || "[]";
+        const gameJson = JSON.parse(game);
+        const newGame = {
+          gameType: 'withImages',
+          score: score,
+          incorrects: errors,
+          corrects: score,
+          date: new Date(),
+
+        };
+        gameJson.push(newGame);
+        await AsyncStorage.setItem('game', JSON.stringify(gameJson));
+        console.log('Juego guardado');
+        console.log("Partida: ", newGame)
+        console.log("Jugadas: ", plays)
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   return (
     <View style={globalStyles.whitecontainer}>
+      {/* Modal con el resultado del juego */}
+      {showFinish && (
+        <FinishModal 
+          showFinish={showFinish} 
+          score={score} 
+          closeModal={()=>navigation.navigate('MainPage')} 
+          startGame={()=>{
+            setShowFinish(false);
+            setScore(0);
+            setErrors(0);
+            setTimerNextLevel(3);
+            setTimerFlipCard(3);
+            setShowInstructions(true);
+            setFeedbackMessage('');
+            generateNewImages(); 
+            setTime(0);
+            setPlays([]);
+          }} 
+          />
+      )}
       {/* Modal con las instrucciones */}
       {showInstructions && (
         <Modal animationType="slide" presentationStyle="formSheet">
@@ -122,7 +206,15 @@ const WithImages = ({ navigation }) => {
             <View marginVertical={'5%'} />
             <CustomButton
               title={'Continuar'}
-              onPress={() => setShowInstructions(false)}
+              onPress={() => {
+                setShowInstructions(false);
+                timeOut = setTimeout(() => {
+                  handleFinish();
+                }, 4*60*1000); // 4 minutos de juego
+                interval = setInterval(() => {
+                  setTime(prevTime => prevTime + 1);
+                }, 1000);
+              }}
               width="40%"
             />
           </View>
@@ -131,7 +223,7 @@ const WithImages = ({ navigation }) => {
 
       {/* Iconos superiores */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('MainPage')}
+        onPress={() => handleFinish()}
         style={[globalStyles.supder, { borderWidth: 2, borderRadius: 18 }]}>
         <FontAwesomeIcon icon={faXmark} size={20} color={colors.black} />
       </TouchableOpacity>

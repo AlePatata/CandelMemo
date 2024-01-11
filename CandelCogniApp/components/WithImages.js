@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Easing, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Easing, Modal, StyleSheet, Pressable } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
 import DisplayAnImage from './images/DisplayAnImage';
@@ -26,11 +26,12 @@ const WithImages = ({ navigation }) => {
   const [showCards, setShowCards] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
 
   //Temporizadores
   const [timerFlipCard, setTimerFlipCard] = useState(3);
-  const [timerNextLevel, setTimerNextLevel] = useState(3);
+  const [timerNextLevel, setTimerNextLevel] = useState(7);
 
   var level = (Math.floor(score / 1) % pattern.length) + 1;
   const images = pattern.find(item => item[0] === level)[1];
@@ -87,10 +88,16 @@ const WithImages = ({ navigation }) => {
     setCards(qcards);
     setTimerFlipCard(3);
     setShowTimer(false)
+    
+    setShowCards(true)
+
+    //Muestra el modal con el feedback
+    setModalVisible(!modalVisible)
 
     //Espera un moemento antes de volver a generar una nueva lista de imagenes
     setTimeout(() => {
-      generateNewImages()     
+      generateNewImages()
+      startNewLevel()     
     }, timerNextLevel*1000);
   };
 
@@ -187,17 +194,66 @@ const WithImages = ({ navigation }) => {
 
       {/* Pregunta por la posición de la tarjeta */}
       {userReady && targetImage && (
-        <View style={{ marginTop: '0%' }}>
           <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+      )}
+
+      {/* Tarjeta a seleccionar */}
+      {userReady && targetImage && (
           <Image
             style={[{ alignSelf: 'center' }, globalStyles.card]}
             source={targetImage.path}
             resizeMode="contain"
           />
-        </View>
       )}
+
+      {/* Modal FeedBack */}
+      {/* <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+            <Image
+              style={[{ alignSelf: 'center' }, globalStyles.card]}
+              source={targetImage.path}
+              resizeMode="contain"
+            />
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={[{color: 'white', fontSize:24}]}>Siguiente Nivel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal> */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: 'orange',
+  },
+});
 
 export default WithImages;

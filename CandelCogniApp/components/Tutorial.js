@@ -25,7 +25,7 @@ const Tutorial = ({ navigation }) => {
     const [score, setScore] = useState(0); // is the record of the correct score of the game.
     const [errors, setErrors] = useState(0); // is the record of the incorrect score of the game.
     const [feedbackMessage, setFeedbackMessage] = useState(''); // is the message to show after pick a card.
-    const [pause, setPause] = useState(false); // pause is the element to stop the game and create a feedback instance.
+    const [showFeedback, setShowFeedback] = useState(false); // showFeedback is the element to stop the game and create a feedback instance.
 
     var level = 9; // corresponds to the "fruit level" designated in pattern.js.
     const images = pattern.find(item => item[0] === level )[1]; // list of elements containing image addresses.
@@ -91,13 +91,13 @@ const Tutorial = ({ navigation }) => {
             '\n----------------------------------\n',
         );
         setCards(qcards); // Show the asked cards again
-        setPause(true); // Instance for feedback
+        setShowFeedback(true); // Instance for feedback
         // Check if the selected index is correct
         if (qcards[clickedIndex].id === targetImage.id) {
-            setTimeout(()=> {setScore(score + 1); setPause(false) },3000)
+            setTimeout(()=> {setScore(score + 1); setShowFeedback(false) },3000)
             setFeedbackMessage('¡Correcto!');
         } else {
-            setTimeout(()=> {setScore(score + 1); setPause(false) },3000)
+            setTimeout(()=> {setScore(errors + 1); setShowFeedback(false) },3000)
             setFeedbackMessage('¡Incorrecto!');
         }   
     };
@@ -151,9 +151,9 @@ const Tutorial = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
-                        onPress={() => { if(userReady && !pause) handleCardClick(index)}}> 
+                        onPress={() => { if(userReady && !showFeedback) handleCardClick(index)}}> 
                         {/* Mechanic for show cards again and give feedback: */}              
-                        {!pause ? (
+                        {!showFeedback ? (
                             <Image
                                 style={[
                                 globalStyles.tinyLogo,
@@ -167,7 +167,7 @@ const Tutorial = ({ navigation }) => {
                                     style={[
                                     globalStyles.tinyLogo,
                                     globalStyles.card,
-                                    {borderColor:'green'} 
+                                    {borderColor:colors.green} 
                                     ]}
                                     source={imagen.path}
                                     resizeMode="contain"
@@ -177,7 +177,7 @@ const Tutorial = ({ navigation }) => {
                                     style={[
                                     globalStyles.tinyLogo,
                                     globalStyles.card,
-                                    {borderColor:'red'} 
+                                    {borderColor:colors.red} 
                                     ]}
                                     source={imagen.path}
                                     resizeMode="contain"
@@ -203,7 +203,7 @@ const Tutorial = ({ navigation }) => {
             {!userReady  && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
             
             {/* feedback messagge: */}
-            {pause && feedbackMessage !== '' && <Text style={globalStyles.text}>{feedbackMessage}</Text>}
+            {showFeedback && feedbackMessage !== '' && <Text style={globalStyles.text}>{feedbackMessage}</Text>}
             
             {/* Asked Card: */}
             {userReady && targetImage && (

@@ -187,6 +187,7 @@ const Tutorial = ({ navigation }) => {
                     </TouchableOpacity> 
                 ))}
             </View>
+            
             {/* Animation for a short intruction */}
             <Animated.View style={{ opacity: animatedValue, 
                 transform: [{ translateY: animatedValue.interpolate({

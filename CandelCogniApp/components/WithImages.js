@@ -50,7 +50,6 @@ const WithImages = ({ navigation }) => {
 
   //genera la primera lista de imagenes
   useEffect(() => {
-    if (score > 2) adjustDifficulty();
     generateNewImages()
   }, []);
 

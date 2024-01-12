@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Easing, Modal, StyleSheet, Pressable } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
-import DisplayAnImage from './images/DisplayAnImage';
 import globalStyles from '../styles/globalStyles';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -28,7 +27,10 @@ const WithImages = ({ navigation }) => {
   let interval = null;
   let timeOut = null;
 
-  
+  const adjustDifficulty = () => {
+    setQCards([withoutImage, withoutImage, withoutImage, withoutImage])
+  }
+
   //muestran componentes visuales
   const [userReady, setUserReady] = useState(false);
   const [showCards, setShowCards] = useState(false);
@@ -56,7 +58,7 @@ const WithImages = ({ navigation }) => {
     let randomimages = [];
     do {
       randomimages = Array.from(
-        { length: 3 },
+        { length: qcards.length },
         () => images[Math.floor(Math.random() * images.length)],
       );
     } while (
@@ -125,7 +127,6 @@ const WithImages = ({ navigation }) => {
   //Inicia el loop de juego
   const startNewLevel = () => {
     setTimerFlipCard(3);
-    setUserReady(true);
     setLastTime(time);
     setShowTimer(true)
 
@@ -134,13 +135,155 @@ const WithImages = ({ navigation }) => {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
-           setShowTimer(false)
-          clearInterval(interval);
-          setCards([withoutImage, withoutImage, withoutImage]);
+            setUserReady(true);
+            setShowTimer(false)
+            clearInterval(interval);
+            setCards([withoutImage, withoutImage, withoutImage]);
           return prevTime;
         }
       });
     }, 1000);
+  };
+  
+  //Views para 3 y 4 cartas
+  const ThreeCards = () => {
+    return (
+      <View style={globalStyles.whitecontainer}>
+        {feedbackMessage == '' ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+          {cards.map((imagen, index) => (
+            <TouchableOpacity
+              key={index}
+              style={globalStyles.card}
+              onPress={() => handleCardClick(index)}>
+              {imagen && (
+                <Image
+                  style={[globalStyles.tinyLogo, globalStyles.card]}
+                  source={imagen.path}
+                  resizeMode="contain"
+                />
+              )}
+            </TouchableOpacity>
+          ))}
+          </View>
+        ):(
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+          {cards.map((imagen, index) => (
+            <View
+              key={index}
+              style={globalStyles.card}
+            >
+              {imagen == targetImage ?(
+                <Image
+                  style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.green}]}
+                  source={imagen.path}
+                  resizeMode="contain"
+                />
+              ):(
+                <Image
+                style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.red}]}
+                source={imagen.path}
+                resizeMode="contain"
+              />
+              )}
+            </View>
+          ))}
+          </View>
+        )}
+        <View style={{ marginVertical: 10 }} />
+
+        {/* Contador de segundos hasta voltear las cartas */}
+        {showTimer && (
+          <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
+        )}
+
+
+        {/* Boton de Inicio */}
+        {!userReady && !showCards && (
+          <CustomButton title="Iniciar" onPress={startNewLevel} width="30%" height={45} />
+        )}
+
+        {/* Pregunta por la posición de la tarjeta */}
+        {userReady && targetImage && (
+            <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+        )}
+
+        {/* Tarjeta a seleccionar */}
+        {userReady && targetImage && (
+            <Image style={[{ alignSelf: 'center' }, globalStyles.card]}
+              source={targetImage.path}
+              resizeMode="contain"
+            />
+        )}
+      </View>
+    )
+  };
+
+  const FourCards = () => {
+    //adjustDifficulty()
+    return (
+      <View style={globalStyles.whitecontainer}>
+    {feedbackMessage == '' ? (
+      <View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+      {cards.slice(0,2).map((imagen, index) => (
+        <TouchableOpacity
+          key={index}
+          style={globalStyles.card}
+          onPress={() => handleCardClick(index)}>
+          {imagen && (
+            <Image
+              style={[globalStyles.tinyLogo, globalStyles.card]}
+              source={imagen.path}
+              resizeMode="contain"
+            />
+          )}
+        </TouchableOpacity>
+      ))}
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+      {cards.slice(2,4).map((imagen, index) => (
+        <TouchableOpacity
+          key={index + 2}
+          style={globalStyles.card}
+          onPress={() => handleCardClick(index + 2)}>
+          {imagen && (
+            <Image
+              style={[globalStyles.tinyLogo, globalStyles.card]}
+              source={imagen.path}
+              resizeMode="contain"
+            />
+          )}
+        </TouchableOpacity>
+      ))}
+      </View>
+      </View>
+    ):(
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+      {cards.map((imagen, index) => (
+        <View
+          key={index}
+          style={globalStyles.card}
+        >
+          {imagen == targetImage ?(
+            <Image
+              style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.green}]}
+              source={imagen.path}
+              resizeMode="contain"
+            />
+          ):(
+            <Image
+            style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.red}]}
+            source={imagen.path}
+            resizeMode="contain"
+          />
+          )}
+        </View>
+      ))}
+      </View>
+    )}
+    </View>
+    )
   };
 
   /**
@@ -186,6 +329,10 @@ const WithImages = ({ navigation }) => {
         console.log(error);
       }
   }
+
+
+
+
 
   return (
     <View style={globalStyles.whitecontainer}>
@@ -258,75 +405,9 @@ const WithImages = ({ navigation }) => {
 
       {/* Lista de cartas */}
       {/* Muestre un view cuando hay feedback y otro cuando no*/}
-      {feedbackMessage == '' ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-        {cards.map((imagen, index) => (
-          <TouchableOpacity
-            key={index}
-            style={globalStyles.card}
-            onPress={() => handleCardClick(index)}>
-            {imagen && (
-              <Image
-                style={[globalStyles.tinyLogo, globalStyles.card]}
-                source={imagen.path}
-                resizeMode="contain"
-              />
-            )}
-          </TouchableOpacity>
-        ))}
-      </View>
-      ):(
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-        {cards.map((imagen, index) => (
-          <View
-            key={index}
-            style={globalStyles.card}
-          >
-            {imagen == targetImage ?(
-              <Image
-                style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: 'green'}]}
-                source={imagen.path}
-                resizeMode="contain"
-              />
-            ):(
-              <Image
-              style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: 'red'}]}
-              source={imagen.path}
-              resizeMode="contain"
-            />
-            )}
-          </View>
-        ))}
-      </View>
-      )}
+      {score !== 2 ? <ThreeCards/> : <FourCards/>}
+
       
-
-      <View style={{ marginVertical: 10 }} />
-
-      {/* Contador de segundos hasta voltear las cartas */}
-      {showTimer && (
-        <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
-      )}
-
-
-      {/* Boton de Inicio */}
-      {!userReady && !showCards && (
-        <CustomButton title="Iniciar" onPress={startNewLevel} width="30%" height={45} />
-      )}
-
-      {/* Pregunta por la posición de la tarjeta */}
-      {userReady && targetImage && (
-          <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-      )}
-
-      {/* Tarjeta a seleccionar */}
-      {userReady && targetImage && (
-          <Image
-            style={[{ alignSelf: 'center' }, globalStyles.card]}
-            source={targetImage.path}
-            resizeMode="contain"
-          />
-      )}
 
       {/* Modal FeedBack */}
       {/* <Modal

@@ -54,6 +54,7 @@ export default styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
+    zIndex: 1,
     backfaceVisibility: 'hidden', // Oculta la cara posterior durante la animación
   },
   cardFront: {
@@ -93,13 +94,15 @@ export default styles = StyleSheet.create({
   supder: { 
     flex: 1, 
     position: 'absolute', 
+    zIndex: 1,
     top: '1%',
     right:'5%', 
     padding: 0  
   },
   supizq: { 
     flex: 1, 
-    position: 'absolute', 
+    position: 'absolute',
+    zIndex: 1, 
     top: '1%',
     left:'5%', 
     padding: 0  

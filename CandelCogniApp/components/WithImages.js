@@ -74,52 +74,54 @@ const WithImages = ({ navigation }) => {
   //maneja la seleccion de una carta
   const handleCardClick = clickedIndex => {
 
-    console.log(
-      '\n----------------IMAGE--------------\n ',
-      qcards[clickedIndex],
-      '\n----------------------------------\n',
-    );
-    console.log(
-        '\n----------------TARGETIMAGE--------------\n ',
-        targetImage,
+    if (showCards) {
+      console.log(
+        '\n----------------IMAGE--------------\n ',
+        qcards[clickedIndex],
         '\n----------------------------------\n',
-    );
-
-    // Verificar si el índice seleccionado es correcto
-    if (qcards[clickedIndex].id === targetImage.id) {
-      setScore(score + 1);
-      setFeedbackMessage('¡Correcto!');
-      setPlays(plays.concat({ 
-        indice: plays.length,
-        resultado: 'Correcto',
-        tiempo: time-lastTime-timerFlipCard, 
-      }));
-    } else {
-      setErrors(errors + 1);
-      setFeedbackMessage('¡Incorrecto!');
-      setPlays(plays.concat({ 
-        indice: plays.length,
-        resultado: 'Incorrecto',
-        tiempo: time-lastTime-timerFlipCard, 
-      }));
-
-    };
-    //Vuelve a mostrar las imágenes
-
-    setCards(qcards);
-    setTimerFlipCard(3);
-    setShowTimer(false)
-    
-    setShowCards(true)
-
-    //Muestra el modal con el feedback
-    setModalVisible(!modalVisible)
-
-    //Espera un momento antes de volver a generar una nueva lista de imágenes
-    setTimeout(() => {
-      generateNewImages()
-      startNewLevel()     
-    }, timerNextLevel*1000);
+      );
+      console.log(
+          '\n----------------TARGETIMAGE--------------\n ',
+          targetImage,
+          '\n----------------------------------\n',
+      );
+  
+      // Verificar si el índice seleccionado es correcto
+      if (qcards[clickedIndex].id === targetImage.id) {
+        setScore(score + 1);
+        setFeedbackMessage('¡Correcto!');
+        setPlays(plays.concat({ 
+          indice: plays.length,
+          resultado: 'Correcto',
+          tiempo: time-lastTime-timerFlipCard, 
+        }));
+      } else {
+        setErrors(errors + 1);
+        setFeedbackMessage('¡Incorrecto!');
+        setPlays(plays.concat({ 
+          indice: plays.length,
+          resultado: 'Incorrecto',
+          tiempo: time-lastTime-timerFlipCard, 
+        }));
+  
+      };
+      //Vuelve a mostrar las imágenes
+  
+      setCards(qcards);
+      setTimerFlipCard(3);
+      setShowTimer(false)
+      
+      
+  
+      //Muestra el modal con el feedback
+      setModalVisible(!modalVisible)
+  
+      //Espera un momento antes de volver a generar una nueva lista de imágenes
+      setTimeout(() => {
+        generateNewImages()
+        startNewLevel()     
+      }, timerNextLevel*1000);      
+    }
   };
 
   //Inicia el loop de juego
@@ -128,15 +130,17 @@ const WithImages = ({ navigation }) => {
     setUserReady(true);
     setLastTime(time);
     setShowTimer(true)
+    setShowCards(false)
 
     const interval = setInterval(() => {
       setTimerFlipCard(prevTime => {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
-           setShowTimer(false)
+          setShowTimer(false)
           clearInterval(interval);
           setCards([withoutImage, withoutImage, withoutImage]);
+          setShowCards(true)
           return prevTime;
         }
       });

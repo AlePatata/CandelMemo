@@ -30,6 +30,7 @@ const WithImages = ({ navigation }) => {
   const adjustDifficulty = () => {
     setQCards([withoutImage, withoutImage, withoutImage, withoutImage])
   }
+  const Change = 2;
 
   //muestran componentes visuales
   const [userReady, setUserReady] = useState(false);
@@ -49,6 +50,7 @@ const WithImages = ({ navigation }) => {
 
   //genera la primera lista de imagenes
   useEffect(() => {
+    if (score > 2) adjustDifficulty();
     generateNewImages()
   }, []);
 
@@ -91,6 +93,7 @@ const WithImages = ({ navigation }) => {
       // Verificar si el índice seleccionado es correcto
       if (qcards[clickedIndex].id === targetImage.id) {
         setScore(score + 1);
+        if(score > Change) adjustDifficulty();
         setFeedbackMessage('¡Correcto!');
         setPlays(plays.concat({ 
           indice: plays.length,
@@ -149,7 +152,7 @@ const WithImages = ({ navigation }) => {
     }, 1000);
   };
   
-  //Views para 3 y 4 cartas
+  // Views para 3 cartas
   const ThreeCards = () => {
     return (
       <View style={globalStyles.whitecontainer}>
@@ -159,7 +162,7 @@ const WithImages = ({ navigation }) => {
             <TouchableOpacity
               key={index}
               style={globalStyles.card}
-              onPress={() => handleCardClick(index)}>
+              onPress={() => {if(userReady) handleCardClick(index) }}>
               {imagen && (
                 <Image
                   style={[globalStyles.tinyLogo, globalStyles.card]}
@@ -222,9 +225,8 @@ const WithImages = ({ navigation }) => {
       </View>
     )
   };
-
+// Views para 4 cartas
   const FourCards = () => {
-    //adjustDifficulty()
     return (
       <View style={globalStyles.whitecontainer}>
     {feedbackMessage == '' ? (
@@ -409,7 +411,13 @@ const WithImages = ({ navigation }) => {
 
       {/* Lista de cartas */}
       {/* Muestre un view cuando hay feedback y otro cuando no*/}
-      {score !== 2 ? <ThreeCards/> : <FourCards/>}
+        {score < Change && (
+          <ThreeCards />
+        )}
+        {score >= Change && (
+          <FourCards />
+        )}
+        
 
       
 

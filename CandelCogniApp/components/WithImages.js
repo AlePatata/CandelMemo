@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, Easing, Modal } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
-import DisplayAnImage from './images/DisplayAnImage';
 import globalStyles from '../styles/globalStyles';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -335,19 +334,27 @@ const WithImages = ({ navigation }) => {
         <FontAwesomeIcon icon={faCircleQuestion} size={20} color={colors.black} />
       </TouchableOpacity>
 
+      {/* mostrar puntaje cuando feedback no esta vacio */}
+      {feedbackMessage != '' && (
+        <View style={{ flexDirection: 'row', 
+        alignItems: 'center',
+        flex: 1, 
+        position: 'absolute', 
+        zIndex: 1,
+        top: '5%',
+        right:'5%', }}>
+          <Text style={globalStyles.text}>Puntaje: </Text>
+          <Text style={globalStyles.resultText}>{score}</Text>
+        </View>
+      )}
+
       {/* Resultado de la seleccion */}
       <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
 
 
       <Matriz />
       
-      {/* mostrar puntaje cuando feedback no esta vacio */}
-      {feedbackMessage != '' && (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={globalStyles.text}>Puntaje: </Text>
-          <Text style={globalStyles.resultText}>{score}</Text>
-        </View>
-      )}
+      
 
 
       <View style={{ marginVertical: 10 }} />
@@ -356,7 +363,21 @@ const WithImages = ({ navigation }) => {
       {initPlay && (
         <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
       )}
+ 
 
+
+
+      {/* Pregunta por la posición de la tarjeta */}
+      {userReady && targetImage && (
+        <View style={{ marginTop: '0%' }}>
+          <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+          <Image
+            style={[{ alignSelf: 'center' }, globalStyles.card]}
+            source={targetImage.path}
+            resizeMode="contain"
+          />
+        </View>
+      )}
 
 
       
@@ -384,7 +405,7 @@ const WithImages = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-      )}
+      )</Modal>*/}
     </View>
   );
 };

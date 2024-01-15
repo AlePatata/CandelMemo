@@ -235,18 +235,7 @@ const WithImages = ({ navigation }) => {
    * @memberof WithImages
    * @description Guarda la información del juego en la base de datos
    */
-  
-        }; // Objeto con la información del juego
-        const Jugadas = plays; // Array con las jugadas del juego
-        gameJson.push(newGame);
-        await AsyncStorage.setItem('game', JSON.stringify(gameJson));
-        console.log('Juego guardado');
-        console.log("Partida: ", newGame)
-        console.log("Jugadas: ", plays)
-      } catch (error) {
-        console.log(error);
-      }
-  }
+
 
 
 
@@ -281,9 +270,6 @@ const WithImages = ({ navigation }) => {
   }
 
 
-
-
-
   return (
     <View style={globalStyles.whitecontainer}>
       {/* Modal con las instrucciones */}
@@ -303,18 +289,37 @@ const WithImages = ({ navigation }) => {
             <CustomButton
               title={'Comenzar'}
               onPress={() => {
-                setShowInstructions(false);
-                timeOut = setTimeout(() => {
-                  handleFinish();
-                }, 4*60*1000); // 4 minutos de juego
-                interval = setInterval(() => {
-                  setTime(prevTime => prevTime + 1);
-                }, 1000);
+
+                setShowInstructions(false)
+                startNewLevel()
+                timeOut = setTimeout(()=>{
+                  handleFinish()
+                }, 4*60*1000); // 4 minutos
+
               }}
               width="40%"
             />
           </View>
         </Modal>
+      )}
+
+      {isFinish &&(
+        <FinishModal 
+        showFinish={isFinish} 
+        score={score} 
+        closeModal={()=>navigation.navigate('MainPage')} 
+        startGame={()=>{
+          setIsFinish(false);
+          setScore(0);
+          setErrors(0);
+          setTimerNextLevel(3);
+          setTimerFlipCard(3);
+          setShowInstructions(true);
+          setFeedbackMessage('');
+          generateNewImages(); 
+          setPlays([]);
+        }} 
+        />
       )}
 
       {/* Iconos superiores */}
@@ -333,15 +338,26 @@ const WithImages = ({ navigation }) => {
       {/* Resultado de la seleccion */}
       <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
 
-      {/* Lista de cartas */}
-      {/* Muestre un view cuando hay feedback y otro cuando no*/}
-        {score < Change && (
-          <ThreeCards />
-        )}
-        {score >= Change && (
-          <FourCards />
-        )}
-        
+
+      <Matriz />
+      
+      {/* mostrar puntaje cuando feedback no esta vacio */}
+      {feedbackMessage != '' && (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={globalStyles.text}>Puntaje: </Text>
+          <Text style={globalStyles.resultText}>{score}</Text>
+        </View>
+      )}
+
+
+      <View style={{ marginVertical: 10 }} />
+
+      {/* Contador de segundos hasta voltear las cartas */}
+      {initPlay && (
+        <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
+      )}
+
+
 
       
 

@@ -143,8 +143,6 @@ const WithImages = ({ navigation }) => {
       });
     }, 1000);
   };
-
-  //genera un arreglo por filas de cartas
   const chunkCards =(cards) =>{
     const result = []
     if (cards.length === 3){
@@ -237,6 +235,28 @@ const WithImages = ({ navigation }) => {
    * @memberof WithImages
    * @description Guarda la información del juego en la base de datos
    */
+  
+        }; // Objeto con la información del juego
+        const Jugadas = plays; // Array con las jugadas del juego
+        gameJson.push(newGame);
+        await AsyncStorage.setItem('game', JSON.stringify(gameJson));
+        console.log('Juego guardado');
+        console.log("Partida: ", newGame)
+        console.log("Jugadas: ", plays)
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+
+
+  /**
+   * Función que guarda la información del juego
+   * @function saveGame
+   * @returns {void}
+   * @memberof WithImages
+   * @description Guarda la información del juego en la base de datos
+   */
   const saveGame = async() => {
       try{
         const game = (await AsyncStorage.getItem('game')) || "[]";
@@ -261,6 +281,9 @@ const WithImages = ({ navigation }) => {
   }
 
 
+
+
+
   return (
     <View style={globalStyles.whitecontainer}>
       {/* Modal con las instrucciones */}
@@ -280,48 +303,18 @@ const WithImages = ({ navigation }) => {
             <CustomButton
               title={'Comenzar'}
               onPress={() => {
-                setShowInstructions(false)
-                startNewLevel()
-                timeOut = setTimeout(()=>{
-                  handleFinish()
-                }, 4*60*1000); // 4 minutos
+                setShowInstructions(false);
+                timeOut = setTimeout(() => {
+                  handleFinish();
+                }, 4*60*1000); // 4 minutos de juego
+                interval = setInterval(() => {
+                  setTime(prevTime => prevTime + 1);
+                }, 1000);
               }}
               width="40%"
             />
           </View>
         </Modal>
-      )}
-
-      {isFinish &&(
-        <FinishModal 
-        showFinish={isFinish} 
-        score={score} 
-        closeModal={()=>navigation.navigate('MainPage')} 
-        startGame={()=>{
-          setIsFinish(false);
-          setScore(0);
-          setErrors(0);
-          setTimerNextLevel(3);
-          setTimerFlipCard(3);
-          setShowInstructions(true);
-          setFeedbackMessage('');
-          generateNewImages(); 
-          setPlays([]);
-        }} 
-        />
-      )}
-
-      {/* mostrar puntaje cuando feedback no esta vacio */}
-      {feedbackMessage != '' && (
-        <View style={{ flexDirection: 'row', 
-        alignItems: 'center' ,
-        position: 'absolute', 
-        zIndex: 1,
-        top: '5%',
-        right:'5%', }}>
-          <Text style={globalStyles.text}>Puntaje: </Text>
-          <Text style={globalStyles.resultText}>{score}</Text>
-        </View>
       )}
 
       {/* Iconos superiores */}
@@ -340,29 +333,40 @@ const WithImages = ({ navigation }) => {
       {/* Resultado de la seleccion */}
       <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
 
-      <Matriz />
+      {/* Lista de cartas */}
+      {/* Muestre un view cuando hay feedback y otro cuando no*/}
+        {score < Change && (
+          <ThreeCards />
+        )}
+        {score >= Change && (
+          <FourCards />
+        )}
+        
+
       
-      
 
-
-      <View style={{ marginVertical: 10 }} />
-
-      {/* Contador de segundos hasta voltear las cartas */}
-      {initPlay && (
-        <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
-      )}
-
-
-
-      {/* Pregunta por la posición de la tarjeta */}
-      {userReady && targetImage && (
-        <View style={{ marginTop: '0%' }}>
-          <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-          <Image
-            style={[{ alignSelf: 'center' }, globalStyles.card]}
-            source={targetImage.path}
-            resizeMode="contain"
-          />
+      {/* Modal FeedBack */}
+      {/* <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+            <Image
+              style={[{ alignSelf: 'center' }, globalStyles.card]}
+              source={targetImage.path}
+              resizeMode="contain"
+            />
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={[{color: 'white', fontSize:24}]}>Siguiente Nivel</Text>
+            </Pressable>
+          </View>
         </View>
       )}
     </View>

@@ -51,14 +51,8 @@ export default styles = StyleSheet.create({
     perspective: 1000, // Establece la perspectiva para crear un efecto 3D
   },
   tinyLogo: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    zIndex: 1,
-    backfaceVisibility: 'hidden', // Oculta la cara posterior durante la animación
-  },
-  cardFront: {
-    // Estilos adicionales para la cara frontal de la carta
+    width: 100,
+    height: 100,
   },
   cardBack: {
     transform: [{ rotateY: '180deg' }], // Gira la cara posterior para que inicialmente esté oculta

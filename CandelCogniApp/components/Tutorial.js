@@ -145,6 +145,10 @@ const Tutorial = ({ navigation }) => {
                 )
             }
 
+            {/* feedback messagge: */}
+            {showFeedback && <Text style={globalStyles.resultText}>{feedbackMessage}</Text>}
+            
+
             {/* 3 Cards */}
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
                 {cards.map((imagen, index) => (
@@ -154,34 +158,33 @@ const Tutorial = ({ navigation }) => {
                         onPress={() => { if(userReady && !showFeedback) handleCardClick(index)}}> 
                         {/* Mechanic for show cards again and give feedback: */}              
                         {!showFeedback ? (
+                            <View style={globalStyles.card}>
                             <Image
-                                style={[
-                                globalStyles.tinyLogo,
-                                globalStyles.card]}
+                                style={
+                                globalStyles.tinyLogo}
                                 source={imagen.path}
                                 resizeMode="contain"
                             />
+                            </View>
                         ) : (   
                             (qcards[index].id === targetImage.id ? (
+                                <View style={[globalStyles.card,
+                                    {borderColor:colors.green}] }>
                                 <Image
-                                    style={[
-                                    globalStyles.tinyLogo,
-                                    globalStyles.card,
-                                    {borderColor:colors.green} 
-                                    ]}
+                                    style={globalStyles.tinyLogo}
                                     source={imagen.path}
                                     resizeMode="contain"
                                 />
+                                </View>
                             ) : ( 
+                                <View style={[globalStyles.card,
+                                    {borderColor:colors.red}] }>
                                 <Image
-                                    style={[
-                                    globalStyles.tinyLogo,
-                                    globalStyles.card,
-                                    {borderColor:colors.red} 
-                                    ]}
+                                    style={globalStyles.tinyLogo} 
                                     source={imagen.path}
                                     resizeMode="contain"
-                                />   
+                                />  
+                                </View> 
                             ))
                         )}
                     </TouchableOpacity> 
@@ -202,19 +205,17 @@ const Tutorial = ({ navigation }) => {
             <View style={{ marginVertical: 10 }} /> 
             {!userReady  && <CustomButton title="Estoy listo" onPress={startNewLevel} width='30%' height={45}/>}
             
-            {/* feedback messagge: */}
-            {showFeedback && feedbackMessage !== '' && <Text style={globalStyles.text}>{feedbackMessage}</Text>}
             
             {/* Asked Card: */}
             {userReady && targetImage && (
                 <View style={{marginTop: '0%'}}>
                     <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-                    <Image style={[
-                        {alignSelf: "center"},
-                        globalStyles.card,]}
+                    <View style={[globalStyles.card,{alignSelf: "center"}]}>
+                    <Image style={globalStyles.tinyLogo}
                         source={targetImage.path}
                         resizeMode="contain"
                     />
+                    </View>
                 </View> 
             )}
         </View>

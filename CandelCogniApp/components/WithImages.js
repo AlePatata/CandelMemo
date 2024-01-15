@@ -168,11 +168,13 @@ const WithImages = ({ navigation }) => {
                   onPress={() => {if(userReady) handleCardClick(columnIndex+rowIndex*2) }}>
 
                   {column && (
+                    <View style={globalStyles.card}>
                     <Image
-                      style={[globalStyles.tinyLogo, globalStyles.card]}
+                      style={globalStyles.tinyLogo}
                       source={column.path}
                       resizeMode="contain"
                     />
+                    </View>
                   )}
                 </TouchableOpacity>
               ))}
@@ -191,18 +193,22 @@ const WithImages = ({ navigation }) => {
                 style={globalStyles.card}
                 >
                   {(column) == targetImage ?(
+                    <View style={[globalStyles.card,{borderColor: colors.green}]}>
                     <Image
-                      style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.green}]}
+                      style={globalStyles.tinyLogo}
                       source={column.path}
                       resizeMode="contain"
                     />
+                    </View>
                   ):(
 
+                    <View style={[globalStyles.card,{borderColor: colors.red}]}>
                     <Image
-                    style={[globalStyles.tinyLogo, globalStyles.card, {borderColor: colors.red}]}
-                    source={column.path}
-                    resizeMode="contain"
-                  />
+                      style={globalStyles.tinyLogo}
+                      source={column.path}
+                      resizeMode="contain"
+                    />
+                    </View>
                   )}
                 </View>
               ))}
@@ -371,11 +377,14 @@ const WithImages = ({ navigation }) => {
       {userReady && targetImage && (
         <View style={{ marginTop: '0%' }}>
           <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+          
+          <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
           <Image
-            style={[{ alignSelf: 'center' }, globalStyles.card]}
+            style={globalStyles.tinyLogo}
             source={targetImage.path}
             resizeMode="contain"
           />
+          </View>
         </View>
       )}
 

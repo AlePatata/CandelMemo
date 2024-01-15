@@ -333,6 +333,4 @@ const pattern = [
     
 ];
         
-export default pattern;                
-                                        
-                                
+export default pattern;

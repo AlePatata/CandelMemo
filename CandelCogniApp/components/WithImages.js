@@ -143,8 +143,6 @@ const WithImages = ({ navigation }) => {
       });
     }, 1000);
   };
-
-  //genera un arreglo por filas de cartas
   const chunkCards =(cards) =>{
     const result = []
     if (cards.length === 3){
@@ -237,6 +235,17 @@ const WithImages = ({ navigation }) => {
    * @memberof WithImages
    * @description Guarda la información del juego en la base de datos
    */
+
+
+
+
+  /**
+   * Función que guarda la información del juego
+   * @function saveGame
+   * @returns {void}
+   * @memberof WithImages
+   * @description Guarda la información del juego en la base de datos
+   */
   const saveGame = async() => {
       try{
         const game = (await AsyncStorage.getItem('game')) || "[]";
@@ -280,11 +289,13 @@ const WithImages = ({ navigation }) => {
             <CustomButton
               title={'Comenzar'}
               onPress={() => {
+
                 setShowInstructions(false)
                 startNewLevel()
                 timeOut = setTimeout(()=>{
                   handleFinish()
                 }, 4*60*1000); // 4 minutos
+
               }}
               width="40%"
             />
@@ -327,6 +338,7 @@ const WithImages = ({ navigation }) => {
       {/* Resultado de la seleccion */}
       <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
 
+
       <Matriz />
       
       {/* mostrar puntaje cuando feedback no esta vacio */}
@@ -347,15 +359,30 @@ const WithImages = ({ navigation }) => {
 
 
 
-      {/* Pregunta por la posición de la tarjeta */}
-      {userReady && targetImage && (
-        <View style={{ marginTop: '0%' }}>
-          <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-          <Image
-            style={[{ alignSelf: 'center' }, globalStyles.card]}
-            source={targetImage.path}
-            resizeMode="contain"
-          />
+      
+
+      {/* Modal FeedBack */}
+      {/* <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+            <Image
+              style={[{ alignSelf: 'center' }, globalStyles.card]}
+              source={targetImage.path}
+              resizeMode="contain"
+            />
+            <Pressable
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={[{color: 'white', fontSize:24}]}>Siguiente Nivel</Text>
+            </Pressable>
+          </View>
         </View>
       )}
     </View>

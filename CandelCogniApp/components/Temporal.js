@@ -22,7 +22,7 @@ const Temporal = ({navigation}) => {
           // Cambiar la imagen después de la animación
           setImage({
             id: 1,
-            path: require('./../assets/Cruz.png'),
+            path: require('./../assets/Arrows/Cruz.png'),
             name: 'PNG',
             size_w: 300,
             size_h: 300,

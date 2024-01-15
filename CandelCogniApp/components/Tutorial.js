@@ -27,7 +27,7 @@ const Tutorial = ({ navigation }) => {
     const [feedbackMessage, setFeedbackMessage] = useState(''); // is the message to show after pick a card.
     const [showFeedback, setShowFeedback] = useState(false); // showFeedback is the element to stop the game and create a feedback instance.
 
-    var level = 9; // corresponds to the "fruit level" designated in pattern.js.
+    var level = 1; // corresponds to the "fruit level" designated in pattern.js.
     const images = pattern.find(item => item[0] === level )[1]; // list of elements containing image addresses.
 
     const animatedValue = useRef(new Animated.Value(0)).current; // animated object for linear movements.

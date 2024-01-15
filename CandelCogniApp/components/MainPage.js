@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, Text, Animated} from 'react-native';
 import CustomButton from './buttons/button';
 import globalStyles from '../styles/globalStyles';
@@ -8,21 +8,30 @@ const MainPage = ({ navigation }) => {
   
   const animatedValue = useRef(new Animated.Value(0)).current;
 
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 2*1000, 
+      useNativeDriver: false, 
+    }).start();
+  }, []);
+
+
   return (
     <View style={globalStyles.whitecontainer}>
       <Text style={globalStyles.title}>¡Bienvenido a MEMO!</Text>
       <Animated.View style={{
-                opacity: animatedValue, // por ejemplo, animar la opacidad
+                opacity: animatedValue, 
                 transform: [
                     {
                     translateY: animatedValue.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0, 10], // animar en el eje Y de 0 a 100
+                        outputRange: [-20, 0], 
                     }),
                     },
                 ],
                 }}>
-                {<Text style={globalStyles.text}>Cuando hayas memorizado las tarjetas pulsa "Estoy listo"</Text>}
+                {<Text style={globalStyles.text}>Mira con atención, recuerda con fuerza, ¡y recupérate ganando!</Text>}
             </Animated.View>
       
       <CustomButton

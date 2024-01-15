@@ -1,6 +1,6 @@
 import os
 
-directorio_descargas = r"..\CogniApp\CandelCogniApp\assets\objects"
+directorio_descargas = r"..\CogniApp\CandelCogniApp\assets\reptiles"
 
 # Lista para almacenar las rutas relativas de las imágenes
 image_paths = []
@@ -22,7 +22,8 @@ js_content_addition = ''
 # Agrega las rutas de las imágenes al contenido adicional
 for i, img_path in enumerate(image_paths, start=1):
     img_path_normalized = img_path.replace("\\", "/")
-    js_content_addition += f'        {{id: {i}, path: require("../../assets/objects/{img_path_normalized}"), "name":"Default", "size_w":300, "size_h":300}},\n'
+    name = img_path_normalized[:-4]
+    js_content_addition += f'        {{id: {i}, path: require("../../assets/reptiles/{img_path_normalized}"), "name":"{name}", "size_w":300, "size_h":300}},\n'
 
 
 # Abre el archivo existente en modo de escritura (append)

@@ -74,7 +74,6 @@ const pattern = [
         {id: 25, path: require("../../assets/objects/column_PNG15831.png"), "name":"column_PNG15831", "size_w":300, "size_h":300},
         {id: 26, path: require("../../assets/objects/comb_PNG137.png"), "name":"comb_PNG137", "size_w":300, "size_h":300},
         {id: 27, path: require("../../assets/objects/cones_PNG13331.png"), "name":"cones_PNG13331", "size_w":300, "size_h":300},
-        {id: 28, path: require("../../assets/objects/credit_card_PNG195.png"), "name":"credit_card_PNG195", "size_w":300, "size_h":300},
         {id: 29, path: require("../../assets/objects/crutch_PNG33.png"), "name":"crutch_PNG33", "size_w":300, "size_h":300},
         {id: 30, path: require("../../assets/objects/diary_PNG20.png"), "name":"diary_PNG20", "size_w":300, "size_h":300},
         {id: 31, path: require("../../assets/objects/dice_PNG150.png"), "name":"dice_PNG150", "size_w":300, "size_h":300},

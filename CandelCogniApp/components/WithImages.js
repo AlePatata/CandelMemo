@@ -359,9 +359,6 @@ const WithImages = ({ navigation }) => {
 
 
       <Matriz />
-      
-      
-
 
       <View style={{ marginVertical: 10 }} />
 
@@ -369,9 +366,6 @@ const WithImages = ({ navigation }) => {
       {initPlay && (
         <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
       )}
- 
-
-
 
       {/* Pregunta por la posición de la tarjeta */}
       {userReady && targetImage && (

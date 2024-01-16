@@ -208,14 +208,12 @@ const Tutorial = ({ navigation }) => {
             
             {/* Asked Card: */}
             {userReady && targetImage && (
-                <View style={{marginTop: '0%'}}>
+                <View style={[globalStyles.card,{marginTop: '0%'},{alignSelf: "center"}]}>
                     <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-                    <View style={[globalStyles.card,{alignSelf: "center"}]}>
                     <Image style={globalStyles.tinyLogo}
                         source={targetImage.path}
                         resizeMode="contain"
                     />
-                    </View>
                 </View> 
             )}
         </View>

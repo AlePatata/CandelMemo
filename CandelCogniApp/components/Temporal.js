@@ -43,15 +43,16 @@ const Temporal = ({navigation}) => {
             <TouchableOpacity
             style={globalStyles.card}
             onPress={handleCardClick}>
+              <View style={[globalStyles.card,
+                                    {borderColor:colors.green}] }>
             <Animated.Image
-                style={[
-                globalStyles.tinyLogo,
-                globalStyles.card,
-                { transform: [{ rotateY: rotateCard }] },
+                style={[globalStyles.tinyLogo,
+                  { transform: [{ rotateY: rotateCard }] },
                 ]}
                 source={image.path}
                 resizeMode="contain"
             />
+            </View>
             </TouchableOpacity>
         </View>
     );

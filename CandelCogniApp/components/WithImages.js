@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, Easing, Modal } from 'react-native
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
 import globalStyles from '../styles/globalStyles';
+import TutorialModalStyle from '../styles/tutorialModalStyle';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faXmark, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
@@ -280,7 +281,9 @@ const WithImages = ({ navigation }) => {
       {/* Modal con las instrucciones */}
       {showInstructions && (
         <Modal animationType="slide" presentationStyle="formSheet">
+          
           <View style={globalStyles.whitecontainer}>
+            {/**
             <View style={{ marginHorizontal: 35 }}>
               <Text style={globalStyles.IinsiderText}>Instrucciones:</Text>
               <Text style={globalStyles.IinsiderText}>
@@ -291,6 +294,15 @@ const WithImages = ({ navigation }) => {
               </Text>
             </View>
             <View marginVertical={'5%'} />
+             */}
+            <View style={TutorialModalStyle.modalContainer}>
+              <Text style={TutorialModalStyle.tutorialTitle}>Instrucciones</Text>
+              <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Este es un juego de memoria. Se mostrarán imágenes, 
+                de las cuales debes recordar su ubicación, 
+                para luego seleccionar la imagen correcta.
+              </Text>
+           
             <CustomButton
               title={'Comenzar'}
               onPress={() => {
@@ -304,6 +316,7 @@ const WithImages = ({ navigation }) => {
               }}
               width="40%"
             />
+             </View>
           </View>
         </Modal>
       )}
@@ -411,6 +424,7 @@ const WithImages = ({ navigation }) => {
       )</Modal>*/}
     </View>
   );
+
 };
 
 export default WithImages;

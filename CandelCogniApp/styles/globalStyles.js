@@ -74,6 +74,20 @@ export default styles = StyleSheet.create({
     fontSize: 20,
     margin: 15
   },
+  tutorialTitle: {
+    fontSize: 30,
+    fontWeight: '900',
+    color: colors.black,
+    margin: 10,
+    textAlign: 'center',
+},
+tutorialText: {
+    fontSize: 20,
+    color: colors.black,
+    fontWeight: "600",
+    margin: 10,
+    textAlign: 'justify',
+},
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
@@ -102,7 +116,7 @@ export default styles = StyleSheet.create({
     padding: 0  
   },
   Icontainer: {
-    backgroundColor: '#FFB65E',
+    backgroundColor: 'yellow',
     justifyContent: 'center', 
     alignItems: 'center',
     maxHeight:'80%',

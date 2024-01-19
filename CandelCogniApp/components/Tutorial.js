@@ -25,7 +25,6 @@ const Tutorial = ({ navigation }) => {
     const [score, setScore] = useState(0); // is the record of the correct score of the game.
     const [errors, setErrors] = useState(0); // is the record of the incorrect score of the game.
     const [feedbackMessage, setFeedbackMessage] = useState(''); // is the message to show after pick a card.
-    const [showFeedback, setShowFeedback] = useState(false); // showFeedback is the element to stop the game and create a feedback instance.
 
     var level = 1; // corresponds to the "fruit level" designated in pattern.js.
     const images = pattern.find(item => item[0] === level )[1]; // list of elements containing image addresses.
@@ -34,7 +33,6 @@ const Tutorial = ({ navigation }) => {
     const rotationValue = useRef(new Animated.Value(0)).current; // animated object for card movements.
 
     const [userReady, setUserReady] = useState(false); // element that allows you to turn over the cards.
-    const [showInstructions, setShowInstructions] = useState(true); // element for show the instruction modal.
 
     /** Configuration for linear movement animation */
     useEffect(() => {
@@ -91,13 +89,12 @@ const Tutorial = ({ navigation }) => {
             '\n----------------------------------\n',
         );
         setCards(qcards); // Show the asked cards again
-        setShowFeedback(true); // Instance for feedback
         // Check if the selected index is correct
         if (qcards[clickedIndex].id === targetImage.id) {
-            setTimeout(()=> {setScore(score + 1); setShowFeedback(false) },3000)
+            setTimeout(()=> {setScore(score + 1); setFeedbackMessage('')  },3000)
             setFeedbackMessage('¡Correcto!');
         } else {
-            setTimeout(()=> {setScore(errors + 1); setShowFeedback(false) },3000)
+            setTimeout(()=> {setScore(errors + 1); setFeedbackMessage('')  },3000)
             setFeedbackMessage('¡Incorrecto!');
         }   
     };
@@ -119,34 +116,10 @@ const Tutorial = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate('MainPage')} style={[globalStyles.supder, {borderWidth: 2, borderRadius: 18}]}>
                 <FontAwesomeIcon icon={faXmark} size={20} color={colors.black}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setShowInstructions(true)} style={globalStyles.supizq}>
-                <FontAwesomeIcon icon={faCircleQuestion} size={20} color={colors.black}/>
-            </TouchableOpacity>
             
-            {/* Instruction Modal */}
-            {showInstructions && (
-                <Modal
-                animationType="slide"
-                presentationStyle='formSheet'>
-                    <View style={globalStyles.whitecontainer}>
-                        <View style={[globalStyles.Icontainer]}>
-                            <Text style={globalStyles.IinsiderText}> 
-                                Instrucciones: {'\n'}
-                                Este es un juego de memoria. Se mostrarán imágenes, 
-                                de las cuales debes recordar su ubicación, 
-                                para luego seleccionar la imagen correcta.
-                                Pulsa la pantalla para continuar
-                            </Text>
-                        </View>
-                        <View marginVertical={'5%'}/>
-                        <CustomButton title={"Continuar"} onPress={() => setShowInstructions(false)} width='40%'/>
-                    </View>
-                </Modal>
-                )
-            }
 
             {/* feedback messagge: */}
-            {showFeedback && <Text style={globalStyles.resultText}>{feedbackMessage}</Text>}
+            {feedbackMessage !== '' && <Text style={globalStyles.resultText}>{feedbackMessage}</Text>}
             
 
             {/* 3 Cards */}
@@ -155,9 +128,9 @@ const Tutorial = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
-                        onPress={() => { if(userReady && !showFeedback) handleCardClick(index)}}> 
+                        onPress={() => { if(userReady && feedbackMessage === '' ) handleCardClick(index)}}> 
                         {/* Mechanic for show cards again and give feedback: */}              
-                        {!showFeedback ? (
+                        {feedbackMessage === '' ? (
                             <View style={globalStyles.card}>
                             <Image
                                 style={
@@ -208,13 +181,17 @@ const Tutorial = ({ navigation }) => {
             
             {/* Asked Card: */}
             {userReady && targetImage && (
-                <View style={[globalStyles.card,{marginTop: '0%'},{alignSelf: "center"}]}>
-                    <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-                    <Image style={globalStyles.tinyLogo}
-                        source={targetImage.path}
-                        resizeMode="contain"
-                    />
-                </View> 
+                <View style={{ marginTop: '0%' }}>
+                <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
+                
+                <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
+                <Image
+                  style={globalStyles.tinyLogo}
+                  source={targetImage.path}
+                  resizeMode="contain"
+                />
+                </View>
+              </View>
             )}
         </View>
     )

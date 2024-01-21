@@ -26,8 +26,7 @@ const Tutorial = ({ navigation }) => {
     const [errors, setErrors] = useState(0); // is the record of the incorrect score of the game.
     const [feedbackMessage, setFeedbackMessage] = useState(''); // is the message to show after pick a card.
 
-    var level = 1; // corresponds to the "fruit level" designated in pattern.js.
-    const images = pattern.find(item => item[0] === level )[1]; // list of elements containing image addresses.
+    const images = pattern.find(item => item[0] === 1 )[1]; // list of elements containing image addresses.
 
     const animatedValue = useRef(new Animated.Value(0)).current; // animated object for linear movements.
     const rotationValue = useRef(new Animated.Value(0)).current; // animated object for card movements.

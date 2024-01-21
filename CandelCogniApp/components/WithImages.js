@@ -8,6 +8,7 @@ import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faXmark, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import FinishModal from './FinishModal';
+import TutorialModal from './tutorialModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
@@ -33,20 +34,27 @@ const WithImages = ({ navigation }) => {
   let timeOut = null;
 
   let level = (Math.floor(score / 1) % pattern.length) + 1;
-  const images = pattern.find(item => item[0] === level)[1];
+
+  const tutorialImages = pattern.find(item => item[0] === 1)[1];
+  const [modalProgress, setModalProgress] = useState(1);
+  const [tutorialCards, setTutorialCards] = useState([withoutImage, withoutImage, withoutImage]);
+  const [qTutorialCards, setQTutorialCards] = useState([withoutImage, withoutImage, withoutImage]);
+  const [targetTutorialImage, setTargetTutorialImage] = useState(withoutImage);
 
   //genera la primera lista de imagenes
   useEffect(() => {
-    generateNewImages()
+    generateNewImages();
+    generateNewImages(0,1);
   }, []);
 
   //genera una lista de imagenes
   const generateNewImages = () => {
     setFeedbackMessage('');
+    const images = pattern.find(item => item[0] === level)[1];
     let randomimages = [];
     do {
       randomimages = Array.from(
-        { length: 2+difficult }, //difficult parte en 1 (3 imagenes)
+        { length: 2+ difficult }, //difficult parte en 1 (3 imagenes)
         () => images[Math.floor(Math.random() * images.length)],
       );
     } while (
@@ -60,6 +68,7 @@ const WithImages = ({ navigation }) => {
     setQCards(randomimages);
     setTargetImage(randomimages[Math.floor(Math.random() * randomimages.length)]);
     setUserReady(false);
+    
   };
 
   //maneja la seleccion de una carta
@@ -84,7 +93,11 @@ const WithImages = ({ navigation }) => {
         const newScore = prevScore + 1;
         console.log(newScore)
         setFeedbackMessage('¡Correcto!');
-        if(newScore > pattern.length){
+        if(newScore > 3*pattern.length){
+          difficult = 4;
+        } else if(newScore > 2*pattern.length){
+          difficult = 3;
+        } else if(newScore > pattern.length){
           difficult = 2;
         } else {
           difficult = 1;
@@ -97,7 +110,11 @@ const WithImages = ({ navigation }) => {
       setScore(prevScore => {
         const newScore = Math.max(0, prevScore - 1)
         console.log(newScore)
-        if(newScore > pattern.length){
+        if(newScore > 3*pattern.length){
+          difficult = 4;
+        } else if(newScore > 2*pattern.length){
+          difficult = 3;
+        } else if(newScore > pattern.length){
           difficult = 2;
         } else {
           difficult = 1;
@@ -135,8 +152,12 @@ const WithImages = ({ navigation }) => {
           clearInterval(interval);
           if (difficult == 1){
             setCards([withoutImage, withoutImage, withoutImage]);
-          } else{
+          } else if (difficult == 2){
             setCards([withoutImage, withoutImage, withoutImage, withoutImage]);
+          } else if (difficult == 3){
+            setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
+          } else{
+            setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
           }
           return prevTime;
         }
@@ -280,46 +301,138 @@ const WithImages = ({ navigation }) => {
     <View style={globalStyles.whitecontainer}>
       {/* Modal con las instrucciones */}
       {showInstructions && (
-        <Modal animationType="slide" presentationStyle="formSheet">
-          
-          <View style={globalStyles.whitecontainer}>
-            {/**
-            <View style={{ marginHorizontal: 35 }}>
-              <Text style={globalStyles.IinsiderText}>Instrucciones:</Text>
-              <Text style={globalStyles.IinsiderText}>
-                1. Recuerda la ubicación de las imágenes.
-              </Text>
-              <Text style={globalStyles.IinsiderText}>
-                2. Selecciona la imagen correcta
-              </Text>
-            </View>
-            <View marginVertical={'5%'} />
-             */}
+          <View style={TutorialModalStyle.container}>
             <View style={TutorialModalStyle.modalContainer}>
+              <View style={{position: "absolute", right: '2%', top: '2%', zIndex:1}}>
+              <TouchableOpacity onPress={() => {
+                  setShowInstructions(false)
+                  startNewLevel()
+                  setModalProgress(1)
+                  timeOut = setTimeout(()=>{
+                    handleFinish()
+                  }, 4*60*1000); // 4 minutos
+
+                }} style={[globalStyles.supder, {borderWidth: 2, borderRadius: 18}]}>
+                <FontAwesomeIcon icon={faXmark} size={20} color={colors.black}/>
+              </TouchableOpacity>
+              </View>
+              {modalProgress === 1 && (
+                <>
               <Text style={TutorialModalStyle.tutorialTitle}>Instrucciones</Text>
               <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
                 Este es un juego de memoria. Se mostrarán imágenes, 
                 de las cuales debes recordar su ubicación, 
                 para luego seleccionar la imagen correcta.
               </Text>
-           
-            <CustomButton
-              title={'Comenzar'}
-              onPress={() => {
+              <CustomButton
+                title={'Siguiente'}
+                onPress={() => {
+                  generateNewImages(0, 1);
+                  setModalProgress(modalProgress+1);
 
-                setShowInstructions(false)
-                startNewLevel()
-                timeOut = setTimeout(()=>{
-                  handleFinish()
-                }, 4*60*1000); // 4 minutos
+                }}
+                width="40%"
+              />
+              </>
+              )}
+              {modalProgress === 2 && (
+                <>
+                <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Te mostraremos 3 imágenes
+                </Text>
 
-              }}
-              width="40%"
-            />
-             </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
+                    {tutorialCards.map((image, index) => (
+                    <View key={index} style={TutorialModalStyle.sequenceItem}>
+                        <View style={TutorialModalStyle.card}>
+                            <Image
+                                style={
+                                TutorialModalStyle.tinyLogo}
+                                source={image.path}
+                                resizeMode="contain"
+                            />
+                            </View>
+                    </View>
+                    ))}
+                </View>
+                <CustomButton
+                  title={'Siguiente'}
+                  onPress={() => {
+                    setModalProgress(modalProgress+1);
+                    generateNewImages(0, 1);
+                  }}
+                  width="40%"
+                />
+                </>
+              )}
+              {modalProgress === 3 && (
+                <>
+                
+                <View style={{marginBottom: 20}} />
+                <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
+                    {tutorialCards.map((image, index) => (
+                    <TouchableOpacity
+                    key={index}
+                    style={TutorialModalStyle.card}
+                    onPress={() => { if(qTutorialCards[index].id === targetTutorialImage.id) setModalProgress(modalProgress+1)}}> 
+                    <View style={TutorialModalStyle.card}>
+                    <Image
+                        style={
+                        TutorialModalStyle.tinyLogo}
+                        source={image.path}
+                        resizeMode="contain"
+                    />
+                    </View>
+                    </TouchableOpacity>
+                    ))}
+                </View>
+                <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Dónde estaba esta imagen?
+                </Text>
+                <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
+                <Image
+                  style={globalStyles.tinyLogo}
+                  source={targetTutorialImage.path}
+                  resizeMode="contain"
+                />
+                </View>
+                <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Puedes volver atrás si lo necesitas
+                </Text>
+                <CustomButton
+                title={'Anterior'}
+                onPress={() => {
+                  setModalProgress(modalProgress-1);
+
+                }}
+                width="40%"
+              />
+                </>
+              )}
+              {modalProgress === 4 && (
+                <>
+              <Text style={TutorialModalStyle.tutorialTitle}>Instrucciones</Text>
+              <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Excelente!
+              </Text>
+              <CustomButton
+                title={'Siguiente'}
+                onPress={() => {
+                  generateNewImages(0, 1);
+                  setModalProgress(modalProgress+1);
+
+                }}
+                width="40%"
+              />
+              </>
+              )}
+              
+            
+            </View>
           </View>
-        </Modal>
-      )}
+        )
+      }
+      
 
       {isFinish &&(
         <FinishModal 
@@ -346,12 +459,12 @@ const WithImages = ({ navigation }) => {
         style={[globalStyles.supder, { borderWidth: 2, borderRadius: 18 }]}>
         <FontAwesomeIcon icon={faXmark} size={20} color={colors.black} />
       </TouchableOpacity>
-
-      <TouchableOpacity
+      {!showInstructions && (<TouchableOpacity
         onPress={() => setShowInstructions(true)}
         style={globalStyles.supizq}>
         <FontAwesomeIcon icon={faCircleQuestion} size={20} color={colors.black} />
-      </TouchableOpacity>
+      </TouchableOpacity>)}
+      
 
       {/* mostrar puntaje cuando feedback no esta vacio */}
       {feedbackMessage != '' && (
@@ -368,12 +481,17 @@ const WithImages = ({ navigation }) => {
       )}
 
       {/* Resultado de la seleccion */}
-      <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+      {feedbackMessage != '' && (
+        <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
+      )}
 
+      {/* Matriz de imagenes */}
+      {!showInstructions && (<Matriz />)}
+      
 
-      <Matriz />
-
-      <View style={{ marginVertical: 10 }} />
+      {difficult < 3 && (
+        <View style={{ marginVertical: 10 }} />
+      )} 
 
       {/* Contador de segundos hasta voltear las cartas */}
       {initPlay && (
@@ -381,7 +499,7 @@ const WithImages = ({ navigation }) => {
       )}
 
       {/* Pregunta por la posición de la tarjeta */}
-      {userReady && targetImage && (
+      {!showInstructions && userReady && targetImage && (
         <View style={{ marginTop: '0%' }}>
           <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
           
@@ -394,9 +512,6 @@ const WithImages = ({ navigation }) => {
           </View>
         </View>
       )}
-
-
-      
 
       {/* Modal FeedBack */}
       {/* <Modal

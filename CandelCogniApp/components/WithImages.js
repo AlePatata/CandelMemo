@@ -6,7 +6,7 @@ import globalStyles from '../styles/globalStyles';
 import TutorialModalStyle from '../styles/tutorialModalStyle';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faXmark, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCircleQuestion, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import FinishModal from './FinishModal';
 import TutorialModal from './tutorialModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,7 +44,6 @@ const WithImages = ({ navigation }) => {
   //genera la primera lista de imagenes
   useEffect(() => {
     generateNewImages();
-    generateNewImages(0,1);
   }, []);
 
   //genera una lista de imagenes
@@ -68,7 +67,6 @@ const WithImages = ({ navigation }) => {
     setQCards(randomimages);
     setTargetImage(randomimages[Math.floor(Math.random() * randomimages.length)]);
     setUserReady(false);
-    
   };
 
   //maneja la seleccion de una carta
@@ -296,6 +294,26 @@ const WithImages = ({ navigation }) => {
       }
   }
 
+  const generateNewTutorialImages = () => {
+    const images = pattern.find(item => item[0] === 1)[1];
+    let randomimages = [];
+    do {
+      randomimages = Array.from(
+        { length: 2+ difficult }, //difficult parte en 1 (3 imagenes)
+        () => images[Math.floor(Math.random() * images.length)],
+      );
+    } while (
+      randomimages.some(
+        (image, index) =>
+          randomimages.slice(index + 1).some(otherImage => image.id === otherImage.id),
+      )
+    );
+    setTutorialCards(randomimages);
+    console.log(randomimages)
+    setQTutorialCards(randomimages);
+    setTargetTutorialImage(randomimages[Math.floor(Math.random() * randomimages.length)]);
+  };
+
 
   return (
     <View style={globalStyles.whitecontainer}>
@@ -324,15 +342,15 @@ const WithImages = ({ navigation }) => {
                 de las cuales debes recordar su ubicación, 
                 para luego seleccionar la imagen correcta.
               </Text>
-              <CustomButton
-                title={'Siguiente'}
-                onPress={() => {
-                  generateNewImages(0, 1);
-                  setModalProgress(modalProgress+1);
-
-                }}
-                width="40%"
-              />
+              <View style={{margin: 30, marginBottom: 20}} />
+              <TouchableOpacity
+              style={{position: "absolute", right: '5%', bottom: '3%', zIndex:1}}
+              onPress={() => {
+                setModalProgress(modalProgress+1);
+                generateNewTutorialImages();
+              }}>
+                <FontAwesomeIcon icon={faArrowRight} size={40} color={colors.black} />
+              </TouchableOpacity>
               </>
               )}
               {modalProgress === 2 && (
@@ -342,51 +360,64 @@ const WithImages = ({ navigation }) => {
                 </Text>
 
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-                    {tutorialCards.map((image, index) => (
-                    <View key={index} style={TutorialModalStyle.sequenceItem}>
-                        <View style={TutorialModalStyle.card}>
-                            <Image
-                                style={
-                                TutorialModalStyle.tinyLogo}
-                                source={image.path}
-                                resizeMode="contain"
-                            />
-                            </View>
+                  {tutorialCards.map((image, index) => (
+                  <View key={index} style={TutorialModalStyle.sequenceItem}>
+                    <View style={TutorialModalStyle.card}>
+                      <Image
+                        style={
+                        TutorialModalStyle.tinyLogo}
+                        source={image.path}
+                        resizeMode="contain"
+                      />
                     </View>
-                    ))}
+                  </View>
+                  ))}
                 </View>
-                <CustomButton
-                  title={'Siguiente'}
-                  onPress={() => {
-                    setModalProgress(modalProgress+1);
-                    generateNewImages(0, 1);
-                  }}
-                  width="40%"
-                />
+                <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                Recuerda su ubicación
+                </Text>
+                
+                <View style={{margin: 30, marginBottom: 20}} />
+              <TouchableOpacity
+              style={{position: "absolute", right: '5%', bottom: '3%', zIndex:1}}
+              onPress={() => {
+                setModalProgress(modalProgress+1);
+                setTutorialCards([withoutImage, withoutImage, withoutImage]);
+              }}>
+                <FontAwesomeIcon icon={faArrowRight} size={40} color={colors.black} />
+              </TouchableOpacity>
+                <TouchableOpacity
+                style={{position: "absolute", left: '5%', bottom: '3%', zIndex:1}}
+                onPress={() => {
+                  setModalProgress(modalProgress-1);
+                  setTutorialCards(qTutorialCards);
+                }}>
+                  <FontAwesomeIcon icon={faArrowLeft} size={40} color={colors.black} />
+                </TouchableOpacity>
                 </>
               )}
               {modalProgress === 3 && (
                 <>
                 
                 <View style={{marginBottom: 20}} />
-                <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-                    {tutorialCards.map((image, index) => (
-                    <TouchableOpacity
-                    key={index}
-                    style={TutorialModalStyle.card}
-                    onPress={() => { if(qTutorialCards[index].id === targetTutorialImage.id) setModalProgress(modalProgress+1)}}> 
-                    <View style={TutorialModalStyle.card}>
-                    <Image
-                        style={
-                        TutorialModalStyle.tinyLogo}
-                        source={image.path}
-                        resizeMode="contain"
-                    />
-                    </View>
-                    </TouchableOpacity>
-                    ))}
+                <View style={{flexDirection: 'row', alignItems: 'center', margin: 20}}>
+                  {tutorialCards.map((image, index) => (
+                  <TouchableOpacity
+                  key={index}
+                  style={TutorialModalStyle.card}
+                  onPress={() => { if(qTutorialCards[index].id === targetTutorialImage.id) setModalProgress(modalProgress+1)}}> 
+                  <View style={TutorialModalStyle.card}>
+                  <Image
+                    style={
+                    TutorialModalStyle.tinyLogo}
+                    source={image.path}
+                    resizeMode="contain"
+                  />
+                  </View>
+                  </TouchableOpacity>
+                  ))}
                 </View>
-                <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
+                <Text style={[TutorialModalStyle.tutorialTitle, {padding: 10}]}>
                 Dónde estaba esta imagen?
                 </Text>
                 <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
@@ -399,31 +430,56 @@ const WithImages = ({ navigation }) => {
                 <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
                 Puedes volver atrás si lo necesitas
                 </Text>
-                <CustomButton
-                title={'Anterior'}
+                <View style={{margin: 30, marginBottom: 20}} />
+                <TouchableOpacity
+                style={{position: "absolute", left: '5%', bottom: '3%', zIndex:1}}
                 onPress={() => {
                   setModalProgress(modalProgress-1);
-
-                }}
-                width="40%"
-              />
+                  setTutorialCards(qTutorialCards);
+                }}>
+                  <FontAwesomeIcon icon={faArrowLeft} size={40} color={colors.black} />
+                </TouchableOpacity>
+                
                 </>
               )}
               {modalProgress === 4 && (
                 <>
-              <Text style={TutorialModalStyle.tutorialTitle}>Instrucciones</Text>
-              <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
-                Excelente!
-              </Text>
+              <Text style={[TutorialModalStyle.tutorialTitle, {margin:'10%'}]}>Excelente!</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
+                  {qTutorialCards.map((image, index) => (
+                  <View key={index} style={TutorialModalStyle.sequenceItem}>
+                    {(qTutorialCards[index].id === targetTutorialImage.id ? (
+                      <View style={[TutorialModalStyle.card,
+                        {borderColor:colors.green}] }>
+                      <Image
+                        style={TutorialModalStyle.tinyLogo}
+                        source={image.path}
+                        resizeMode="contain"
+                      />
+                      </View>
+                    ) : ( 
+                      <View style={[TutorialModalStyle.card,
+                        {borderColor:colors.red}] }>
+                      <Image
+                        style={TutorialModalStyle.tinyLogo} 
+                        source={image.path}
+                        resizeMode="contain"
+                      />  
+                      </View> 
+                    ))}
+                  </View>
+                  ))}
+                </View>
               <CustomButton
-                title={'Siguiente'}
+                title={'Repetir Tutorial'}
                 onPress={() => {
-                  generateNewImages(0, 1);
-                  setModalProgress(modalProgress+1);
+                  generateNewTutorialImages();
+                  setModalProgress(2);
 
                 }}
-                width="40%"
+                width="70%"
               />
+              
               </>
               )}
               

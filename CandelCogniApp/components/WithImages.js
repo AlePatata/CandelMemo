@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Easing, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Easing, Animated } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
 import globalStyles from '../styles/globalStyles';
@@ -39,11 +39,34 @@ const WithImages = ({ navigation }) => {
   const [tutorialCards, setTutorialCards] = useState([withoutImage, withoutImage, withoutImage]);
   const [qTutorialCards, setQTutorialCards] = useState([withoutImage, withoutImage, withoutImage]);
   const [targetTutorialImage, setTargetTutorialImage] = useState(withoutImage);
+  const scaleValue = useRef(new Animated.Value(0)).current;
+
+  const startAnimation = () => {
+    Animated.timing(scaleValue, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+  
 
   //genera la primera lista de imagenes
   useEffect(() => {
     generateNewImages();
+    startAnimation();
   }, []);
+
+  useEffect(() => {
+    if (showInstructions) {
+      Animated.timing(scaleValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      scaleValue.setValue(0); // reset the scale value when showInstructions is false
+    }
+  }, [showInstructions]);
 
   //genera una lista de imagenes
   const generateNewImages = () => {
@@ -399,6 +422,11 @@ const WithImages = ({ navigation }) => {
       {/* Modal con las instrucciones */}
       {showInstructions && (
         <View style={TutorialModalStyle.container}>
+          <Animated.View
+            style={{
+              transform: [{ scale: scaleValue }],
+            }}
+          >
           <View style={TutorialModalStyle.modalContainer}>
             <View style={{position: "absolute", right: '2%', top: '2%', zIndex:1}}>
             <TouchableOpacity onPress={() => {
@@ -417,9 +445,9 @@ const WithImages = ({ navigation }) => {
               <>
             <Text style={TutorialModalStyle.tutorialTitle}>Instrucciones</Text>
             <Text style={[TutorialModalStyle.tutorialText, {padding: 10}]}>
-              Este es un juego de memoria. Se mostrarán imágenes, 
-              de las cuales debes recordar su ubicación, 
-              para luego seleccionar la imagen correcta.
+              Este es un juego de <Text style={{fontWeight: '900'}}>memoria</Text>. Se mostrarán imágenes, 
+              de las cuales debes recordar su <Text style={{fontWeight: '900'}}>ubicación</Text>, 
+              para luego <Text style={{fontWeight: '900'}}>seleccionar</Text> la imagen correcta.
             </Text>
             <View style={{margin: 30, marginBottom: 20}} />
             <TouchableOpacity
@@ -468,7 +496,7 @@ const WithImages = ({ navigation }) => {
               
               <TutorialMatriz />  
               <Text style={[TutorialModalStyle.tutorialTitle, {padding: 10}]}>
-              Dónde estaba esta imagen?
+              ¿Dónde estaba esta imagen?
               </Text>
               <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
               <Image
@@ -573,7 +601,7 @@ const WithImages = ({ navigation }) => {
               
               <TutorialMatriz />  
               <Text style={[TutorialModalStyle.tutorialTitle, {padding: 10}]}>
-              Dónde estaba esta imagen?
+              ¿Dónde estaba esta imagen?
               </Text>
               <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
               <Image
@@ -675,7 +703,7 @@ const WithImages = ({ navigation }) => {
               
               <TutorialMatriz />  
               <Text style={[TutorialModalStyle.tutorialTitle, {padding: 10}]}>
-              Dónde estaba esta imagen?
+              ¿Dónde estaba esta imagen?
               </Text>
               <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
               <Image
@@ -751,6 +779,7 @@ const WithImages = ({ navigation }) => {
             )}  
           
           </View>
+          </Animated.View>
         </View>
       )}
       
@@ -833,31 +862,6 @@ const WithImages = ({ navigation }) => {
           </View>
         </View>
       )}
-
-      {/* Modal FeedBack */}
-      {/* <Modal
-        animationType='slide'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
-            <Image
-              style={[{ alignSelf: 'center' }, globalStyles.card]}
-              source={targetImage.path}
-              resizeMode="contain"
-            />
-            <Pressable
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={[{color: 'white', fontSize:24}]}>Siguiente Nivel</Text>
-            </Pressable>
-          </View>
-        </View>
-      )</Modal>*/}
     </View>
   );
 

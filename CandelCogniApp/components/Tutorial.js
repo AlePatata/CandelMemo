@@ -10,6 +10,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import colors from '../styles/colors';
 
+
+
+
+
+
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
 /** The tutorial is a simpliest version of WithImages, there is always 3 cards and the same level.
@@ -20,6 +25,7 @@ const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG
  */
 const Tutorial = ({ navigation }) => {
     const [cards, setCards] = useState([]); // cards is a list of the 3 cards in turn to show.
+    
     const [qcards, setQCards] = useState([withoutImage, withoutImage, withoutImage]); // qcards is a list of the 3 cards in turn.
     const [targetImage, setTargetImage] = useState(withoutImage); // targetImage is the image to ask.
     const [score, setScore] = useState(0); // is the record of the correct score of the game.
@@ -29,7 +35,6 @@ const Tutorial = ({ navigation }) => {
     const images = pattern.find(item => item[0] === 1 )[1]; // list of elements containing image addresses.
 
     const animatedValue = useRef(new Animated.Value(0)).current; // animated object for linear movements.
-    const rotationValue = useRef(new Animated.Value(0)).current; // animated object for card movements.
 
     const [userReady, setUserReady] = useState(false); // element that allows you to turn over the cards.
 
@@ -42,6 +47,7 @@ const Tutorial = ({ navigation }) => {
           useNativeDriver: true, 
         }).start();
     }, []);
+
 
     /** Game logic */
     useEffect(() => {
@@ -88,6 +94,7 @@ const Tutorial = ({ navigation }) => {
             '\n----------------------------------\n',
         );
         setCards(qcards); // Show the asked cards again
+        
         // Check if the selected index is correct
         if (qcards[clickedIndex].id === targetImage.id) {
             setTimeout(()=> {setScore(score + 1); setFeedbackMessage('')  },3000)
@@ -104,10 +111,60 @@ const Tutorial = ({ navigation }) => {
         setUserReady(true);
     };
 
-    const rotateCard = rotationValue.interpolate({ // Flip a card animation
-        inputRange: [0, 1],
-        outputRange: ['0deg', '180deg'],
-    });
+    const [newBack, setNewBack] = useState(withoutImage); // targetImage is the image to ask.
+
+    const Card = ({ image, back = newBack }) => {
+        const flipAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
+
+        // Start the animation on mount
+        useEffect(() => {
+            Animated.timing(
+                flipAnim,
+                {
+                    toValue: 1,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }
+            ).start();
+        }, [flipAnim]);
+
+        const flipToBackStyle = {
+            transform: [
+                { rotateY: flipAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '180deg']
+                }) }
+            ]
+        };
+
+        const flipToFrontStyle = {
+            transform: [
+                { rotateY: flipAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['180deg', '0deg']
+                }) }
+            ]
+        };
+
+        return (
+            <>
+                <Animated.View style={[globalStyles.card, flipToBackStyle,globalStyles.cardFront]}>
+                    <Image
+                        style={[globalStyles.tinyLogo,]}
+                        source={image.path}
+                        resizeMode="contain"
+                    />
+                </Animated.View>
+                <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack]}>
+                    <Image
+                        style={[globalStyles.tinyLogo,{backfaceVisibility: 'hidden'}]}
+                        source={back.path}
+                        resizeMode="contain"
+                    />
+                </Animated.View>
+            </>
+        );
+    }
 
     return (
         <View style={globalStyles.whitecontainer} > 
@@ -120,6 +177,7 @@ const Tutorial = ({ navigation }) => {
             {/* feedback messagge: */}
             {feedbackMessage !== '' && <Text style={globalStyles.resultText}>{feedbackMessage}</Text>}
             
+            
 
             {/* 3 Cards */}
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
@@ -127,27 +185,17 @@ const Tutorial = ({ navigation }) => {
                     <TouchableOpacity
                         key={index}
                         style={globalStyles.card}
-                        onPress={() => { if(userReady && feedbackMessage === '' ) handleCardClick(index)}}> 
+                        onPress={() => {  if(userReady && feedbackMessage === '' ) handleCardClick(index)}}> 
                         {/* Mechanic for show cards again and give feedback: */}              
                         {feedbackMessage === '' ? (
-                            <View style={globalStyles.card}>
-                            <Image
-                                style={
-                                globalStyles.tinyLogo}
-                                source={imagen.path}
-                                resizeMode="contain"
-                            />
-                            </View>
+                            <Card image={withoutImage} back={imagen} />
+                            
+
                         ) : (   
                             (qcards[index].id === targetImage.id ? (
-                                <View style={[globalStyles.card,
-                                    {borderColor:colors.green}] }>
-                                <Image
-                                    style={globalStyles.tinyLogo}
-                                    source={imagen.path}
-                                    resizeMode="contain"
-                                />
-                                </View>
+                                <Card image={withoutImage} back={imagen} style={[globalStyles.card,
+                                    {borderColor:colors.green}] }/>
+                               
                             ) : ( 
                                 <View style={[globalStyles.card,
                                     {borderColor:colors.red}] }>
@@ -180,17 +228,12 @@ const Tutorial = ({ navigation }) => {
             
             {/* Asked Card: */}
             {userReady && targetImage && (
-                <View style={{ marginTop: '0%' }}>
+                <View style={{ marginTop: '0%', alignSelf: 'center'}}>
                 <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-                
-                <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
-                <Image
-                  style={globalStyles.tinyLogo}
-                  source={targetImage.path}
-                  resizeMode="contain"
-                />
+                <View style={{ marginTop: '0%', alignSelf: 'center'}}>
+                <Card image={withoutImage}  back={targetImage} />
                 </View>
-              </View>
+                </View>
             )}
         </View>
     )

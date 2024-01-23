@@ -54,8 +54,11 @@ export default styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  cardFront: {
+    position: 'absolute',
+  },
   cardBack: {
-    transform: [{ rotateY: '180deg' }], // Gira la cara posterior para que inicialmente esté oculta
+    backfaceVisibility: 'hidden', // Oculta la cara posterior de la tarjeta
   },
   card: {
     backgroundColor: 'white',

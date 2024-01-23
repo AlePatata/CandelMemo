@@ -430,12 +430,12 @@ const WithImages = ({ navigation }) => {
           <View style={TutorialModalStyle.modalContainer}>
             <View style={{position: "absolute", right: '2%', top: '2%', zIndex:1}}>
             <TouchableOpacity onPress={() => {
-                setShowInstructions(false)
-                startNewLevel()
-                setModalProgress(1)
-                timeOut = setTimeout(()=>{
-                  handleFinish()
-                }, 4*60*1000); // 4 minutos
+              setShowInstructions(false)
+              startNewLevel()
+              setModalProgress(1)
+              timeOut = setTimeout(()=>{
+                handleFinish()
+              }, 4*60*1000); // 4 minutos
 
               }} style={[globalStyles.supder, {borderWidth: 2, borderRadius: 18}]}>
               <FontAwesomeIcon icon={faXmark} size={20} color={colors.black}/>

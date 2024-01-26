@@ -93,7 +93,7 @@ const Tutorial = ({ navigation }) => {
             targetImage,
             '\n----------------------------------\n',
         );
-        setCards(qcards); // Show the asked cards again
+        //setCards(qcards); // Show the asked cards again
         
         // Check if the selected index is correct
         if (qcards[clickedIndex].id === targetImage.id) {
@@ -107,13 +107,13 @@ const Tutorial = ({ navigation }) => {
     
     /** Starts a new round */
     const startNewLevel = () => {
-        setCards([withoutImage, withoutImage, withoutImage]); // Reset the cards
+        //setCards([withoutImage, withoutImage, withoutImage]); // Reset the cards
         setUserReady(true);
     };
 
     const [newBack, setNewBack] = useState(withoutImage); // targetImage is the image to ask.
 
-    const Card = ({ image, back = newBack }) => {
+    const Card = ({ image, back = newBack , cardStyle}) => {
         const flipAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
 
         // Start the animation on mount
@@ -155,7 +155,7 @@ const Tutorial = ({ navigation }) => {
                         resizeMode="contain"
                     />
                 </Animated.View>
-                <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack]}>
+                <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack,cardStyle]}>
                     <Image
                         style={[globalStyles.tinyLogo,{backfaceVisibility: 'hidden'}]}
                         source={back.path}
@@ -184,27 +184,17 @@ const Tutorial = ({ navigation }) => {
                 {cards.map((imagen, index) => (
                     <TouchableOpacity
                         key={index}
-                        style={globalStyles.card}
                         onPress={() => {  if(userReady && feedbackMessage === '' ) handleCardClick(index)}}> 
                         {/* Mechanic for show cards again and give feedback: */}              
                         {feedbackMessage === '' ? (
-                            <Card image={withoutImage} back={imagen} />
-                            
-
+                            userReady ? (<Card image={imagen} back={withoutImage} />) : (<Card image={withoutImage} back={imagen} />)
                         ) : (   
                             (qcards[index].id === targetImage.id ? (
-                                <Card image={withoutImage} back={imagen} style={[globalStyles.card,
+                                <Card image={withoutImage} back={imagen} cardStyle={[globalStyles.card,
                                     {borderColor:colors.green}] }/>
-                               
                             ) : ( 
-                                <View style={[globalStyles.card,
-                                    {borderColor:colors.red}] }>
-                                <Image
-                                    style={globalStyles.tinyLogo} 
-                                    source={imagen.path}
-                                    resizeMode="contain"
-                                />  
-                                </View> 
+                                <Card image={withoutImage} back={imagen} cardStyle={[globalStyles.card,
+                                    {borderColor:colors.red}] }/>
                             ))
                         )}
                     </TouchableOpacity> 
@@ -227,7 +217,7 @@ const Tutorial = ({ navigation }) => {
             
             
             {/* Asked Card: */}
-            {userReady && targetImage && (
+            {userReady  && (
                 <View style={{ marginTop: '0%', alignSelf: 'center'}}>
                 <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
                 <View style={{ marginTop: '0%', alignSelf: 'center'}}>

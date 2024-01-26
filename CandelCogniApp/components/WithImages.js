@@ -41,6 +41,59 @@ const WithImages = ({ navigation }) => {
   const [targetTutorialImage, setTargetTutorialImage] = useState(withoutImage);
   const scaleValue = useRef(new Animated.Value(0)).current;
 
+  const Card = ({ image, back = newBack , cardStyle}) => {
+    const flipAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
+
+    // Start the animation on mount
+    useEffect(() => {
+        Animated.timing(
+            flipAnim,
+            {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true,
+            }
+        ).start();
+    }, [flipAnim]);
+
+    const flipToBackStyle = {
+        transform: [
+            { rotateY: flipAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '180deg']
+            }) }
+        ]
+    };
+
+    const flipToFrontStyle = {
+        transform: [
+            { rotateY: flipAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['180deg', '0deg']
+            }) }
+        ]
+    };
+
+    return (
+        <>
+            <Animated.View style={[globalStyles.card, flipToBackStyle,globalStyles.cardFront]}>
+                <Image
+                    style={[globalStyles.tinyLogo,]}
+                    source={image.path}
+                    resizeMode="contain"
+                />
+            </Animated.View>
+            <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack,cardStyle]}>
+                <Image
+                    style={[globalStyles.tinyLogo,{backfaceVisibility: 'hidden'}]}
+                    source={back.path}
+                    resizeMode="contain"
+                />
+            </Animated.View>
+        </>
+    );
+}
+
   const startAnimation = () => {
     Animated.timing(scaleValue, {
       toValue: 1,
@@ -144,8 +197,7 @@ const WithImages = ({ navigation }) => {
       setFeedbackMessage('¡Incorrecto!');
       setPlays(prevPlays => [...prevPlays, {target: targetImage, selected: qcards[clickedIndex], correct: false}]);
     };
-    //Vueve a mostrar las imagenes
-    setCards(qcards);
+    
     setTimerFlipCard(3)
 
     //Espera un moemento antes de volver a generar una nueva lista de imágenes
@@ -170,6 +222,7 @@ const WithImages = ({ navigation }) => {
           setUserReady(true);
           setInitPlay(false)
           clearInterval(interval);
+          /*
           if (difficult == 1){
             setCards([withoutImage, withoutImage, withoutImage]);
           } else if (difficult == 2){
@@ -178,7 +231,7 @@ const WithImages = ({ navigation }) => {
             setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
           } else{
             setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
-          }
+          }*/
           return prevTime;
         }
       });
@@ -198,67 +251,33 @@ const WithImages = ({ navigation }) => {
 
   /** Matriz de imagenes, se terminara mas tarde */
   const Matriz = () => {
-    if (feedbackMessage == '' ){
-      return (
-        <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
-          {chunkCards(cards).map((row, rowIndex)=>(
-            <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-              {row.map((column, columnIndex)=>(
-                <TouchableOpacity
-                  key={columnIndex}
-                  style={globalStyles.card}
-                  onPress={() => {if(userReady) handleCardClick(columnIndex+rowIndex*2) }}>
-
-                  {column && (
-                    <View style={globalStyles.card}>
-                    <Image
-                      style={globalStyles.tinyLogo}
-                      source={column.path}
-                      resizeMode="contain"
-                    />
-                    </View>
-                  )}
-                </TouchableOpacity>
-              ))}
-            </View>
-          ))}
-        </View>
-      )
-    } else {
-      return (
-        <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
-          {chunkCards(cards).map((row, rowIndex)=>(
-            <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-              {row.map((column, columnIndex)=>(
-                <View
+    return (
+      <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
+        {chunkCards(cards).map((row, rowIndex)=>(
+          <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+            {row.map((column, columnIndex)=>(
+              <TouchableOpacity
                 key={columnIndex}
-                style={globalStyles.card}
-                >
-                  {(column) == targetImage ?(
-                    <View style={[globalStyles.card,{borderColor: colors.green}]}>
-                    <Image
-                      style={globalStyles.tinyLogo}
-                      source={column.path}
-                      resizeMode="contain"
-                    />
-                    </View>
-                  ):(
+                onPress={() => {if(userReady && feedbackMessage === '' ) handleCardClick(columnIndex+rowIndex*2) }}>
 
-                    <View style={[globalStyles.card,{borderColor: colors.red}]}>
-                    <Image
-                      style={globalStyles.tinyLogo}
-                      source={column.path}
-                      resizeMode="contain"
-                    />
-                    </View>
-                  )}
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
-      )
-    }
+                {feedbackMessage === '' ? (
+                  userReady ? (<Card image={column} back={withoutImage} />) : (<Card image={withoutImage} back={column} />)
+                
+                ) : (   
+                  (qcards[columnIndex+rowIndex*2].id === targetImage.id ? (
+                    <Card image={withoutImage} back={column} cardStyle={[globalStyles.card, {borderColor:colors.green}] }/>
+                  ) : ( 
+                      <Card image={withoutImage} back={column} cardStyle={[globalStyles.card,
+                          {borderColor:colors.red}] }/>
+                  ))
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </View>
+    )
+    
   }
 
 
@@ -433,6 +452,7 @@ const WithImages = ({ navigation }) => {
               setShowInstructions(false)
               startNewLevel()
               setModalProgress(1)
+              
               timeOut = setTimeout(()=>{
                 handleFinish()
               }, 4*60*1000); // 4 minutos
@@ -853,12 +873,10 @@ const WithImages = ({ navigation }) => {
         <View style={{ marginTop: '0%' }}>
           <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
           
-          <View style={[globalStyles.card,{ alignSelf: 'center' }]}>
-          <Image
-            style={globalStyles.tinyLogo}
-            source={targetImage.path}
-            resizeMode="contain"
-          />
+          
+          
+          <View style={{ marginTop: '0%', alignSelf: 'center'}}>
+          <Card image={withoutImage}  back={targetImage} />
           </View>
         </View>
       )}

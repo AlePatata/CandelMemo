@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Easing, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableHighlight, Image, Easing, Animated } from 'react-native';
 import CustomButton from './buttons/button';
 import pattern from './images/pattern';
 import globalStyles from '../styles/globalStyles';
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faXmark, faCircleQuestion, faArrowLeft, faArrowRight, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import FinishModal from './FinishModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Timer from './elementos/timer';
 
 const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"PNG", "size_w":300, "size_h":300, "level":0};
 
@@ -25,10 +26,10 @@ const WithImages = ({ navigation }) => {
   const [isFinish, setIsFinish] = useState(false);
   const [userReady, setUserReady] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
-  const [initPlay, setInitPlay] = useState(false);
 
   const [timerFlipCard, setTimerFlipCard] = useState(3);
   const [timerNextLevel, setTimerNextLevel] = useState(3);
+  const [timerEndGame, setTimerEndGame] = useState(4*60); // 4 minutos
   let difficult = 1
   let timeOut = null;
 
@@ -41,11 +42,14 @@ const WithImages = ({ navigation }) => {
   const [targetTutorialImage, setTargetTutorialImage] = useState(withoutImage);
   const scaleValue = useRef(new Animated.Value(0)).current;
 
-  const Card = ({ image, back = newBack , cardStyle}) => {
+  
+
+  const Card = ({image, back, cardStyle, startAnimation = true}) => {
     const flipAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
 
     // Start the animation on mount
     useEffect(() => {
+      if (startAnimation) {
         Animated.timing(
             flipAnim,
             {
@@ -54,7 +58,8 @@ const WithImages = ({ navigation }) => {
                 useNativeDriver: true,
             }
         ).start();
-    }, [flipAnim]);
+      }
+    }, [flipAnim, startAnimation]);
 
     const flipToBackStyle = {
         transform: [
@@ -75,22 +80,22 @@ const WithImages = ({ navigation }) => {
     };
 
     return (
-        <>
-            <Animated.View style={[globalStyles.card, flipToBackStyle,globalStyles.cardFront]}>
-                <Image
-                    style={[globalStyles.tinyLogo,]}
-                    source={image.path}
-                    resizeMode="contain"
-                />
-            </Animated.View>
-            <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack,cardStyle]}>
-                <Image
-                    style={[globalStyles.tinyLogo,{backfaceVisibility: 'hidden'}]}
-                    source={back.path}
-                    resizeMode="contain"
-                />
-            </Animated.View>
-        </>
+      <>
+        <Animated.View style={[globalStyles.card, flipToBackStyle,globalStyles.cardFront]}>
+          <Image
+              style={[globalStyles.tinyLogo,]}
+              source={image.path}
+              resizeMode="contain"
+          />
+        </Animated.View>
+        <Animated.View style={[globalStyles.card, flipToFrontStyle,globalStyles.cardBack,cardStyle]}>
+            <Image
+              style={[globalStyles.tinyLogo,{backfaceVisibility: 'hidden'}]}
+              source={back.path}
+              resizeMode="contain"
+            />
+        </Animated.View>
+      </>
     );
 }
 
@@ -124,6 +129,7 @@ const WithImages = ({ navigation }) => {
   //genera una lista de imagenes
   const generateNewImages = () => {
     setFeedbackMessage('');
+    setUserReady(false);
     const images = pattern.find(item => item[0] === level)[1];
     let randomimages = [];
     do {
@@ -141,7 +147,7 @@ const WithImages = ({ navigation }) => {
     console.log(randomimages);
     setQCards(randomimages);
     setTargetImage(randomimages[Math.floor(Math.random() * randomimages.length)]);
-    setUserReady(false);
+    
   };
 
   //maneja la seleccion de una carta
@@ -211,7 +217,6 @@ const WithImages = ({ navigation }) => {
 
   //Inicia el loop de juego
   const startNewLevel = () => {
-    setInitPlay(true)
     setTimerFlipCard(3);
 
     const interval = setInterval(() => {
@@ -220,18 +225,7 @@ const WithImages = ({ navigation }) => {
           return prevTime - 1;
         } else {
           setUserReady(true);
-          setInitPlay(false)
           clearInterval(interval);
-          /*
-          if (difficult == 1){
-            setCards([withoutImage, withoutImage, withoutImage]);
-          } else if (difficult == 2){
-            setCards([withoutImage, withoutImage, withoutImage, withoutImage]);
-          } else if (difficult == 3){
-            setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
-          } else{
-            setCards([withoutImage, withoutImage, withoutImage, withoutImage, withoutImage, withoutImage]);
-          }*/
           return prevTime;
         }
       });
@@ -252,26 +246,26 @@ const WithImages = ({ navigation }) => {
   /** Matriz de imagenes, se terminara mas tarde */
   const Matriz = () => {
     return (
-      <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
+      <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20, position: 'absolute', top: '20%', zIndex:1}}>
         {chunkCards(cards).map((row, rowIndex)=>(
           <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             {row.map((column, columnIndex)=>(
-              <TouchableOpacity
+              <TouchableHighlight
+                underlayColor={colors.white}
                 key={columnIndex}
                 onPress={() => {if(userReady && feedbackMessage === '' ) handleCardClick(columnIndex+rowIndex*2) }}>
 
                 {feedbackMessage === '' ? (
-                  userReady ? (<Card image={column} back={withoutImage} />) : (<Card image={withoutImage} back={column} />)
+                  userReady ? (<Card image={column} back={withoutImage} />) : (<Card image={column} back={column} startAnimation={false} />)
                 
                 ) : (   
                   (qcards[columnIndex+rowIndex*2].id === targetImage.id ? (
                     <Card image={withoutImage} back={column} cardStyle={[globalStyles.card, {borderColor:colors.green}] }/>
                   ) : ( 
-                      <Card image={withoutImage} back={column} cardStyle={[globalStyles.card,
-                          {borderColor:colors.red}] }/>
+                      <Card image={withoutImage} back={column} cardStyle={[globalStyles.card, {borderColor:colors.red}] }/>
                   ))
                 )}
-              </TouchableOpacity>
+              </TouchableHighlight>
             ))}
           </View>
         ))}
@@ -293,17 +287,6 @@ const WithImages = ({ navigation }) => {
     clearTimeout(timeOut);
     saveGame();
   }
-
-  /**
-   * Función que guarda la información del juego
-   * @function saveGame
-   * @returns {void}
-   * @memberof WithImages
-   * @description Guarda la información del juego en la base de datos
-   */
-
-
-
 
   /**
    * Función que guarda la información del juego
@@ -830,12 +813,24 @@ const WithImages = ({ navigation }) => {
         <FontAwesomeIcon icon={faXmark} size={20} color={colors.black} />
       </TouchableOpacity>
       {!showInstructions && (<TouchableOpacity
-        onPress={() => setShowInstructions(true)}
+        onPress={() => 
+          //se muestra el modal del tutorial
+          setShowInstructions(true)
+
+        }
         style={globalStyles.supizq}>
         <FontAwesomeIcon icon={faCircleQuestion} size={20} color={colors.black} />
       </TouchableOpacity>)}
       
-
+      <Timer 
+        style={{
+          color: "black",
+          fontSize: 20,
+        }} 
+        time={4*60} // 4 minutos
+        endGame={handleFinish} 
+        reset={!isFinish && !showInstructions}
+      />
       {/* mostrar puntaje cuando feedback no esta vacio */}
       {feedbackMessage != '' && (
         <View style={{ flexDirection: 'row', 
@@ -864,19 +859,17 @@ const WithImages = ({ navigation }) => {
       )} 
 
       {/* Contador de segundos hasta voltear las cartas */}
-      {initPlay && (
+      {!userReady && feedbackMessage === '' && (
         <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
       )}
 
       {/* Pregunta por la posición de la tarjeta */}
-      {!showInstructions && userReady && targetImage && (
+      {!showInstructions && (userReady) && targetImage && (
         <View style={{ marginTop: '0%' }}>
-          <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>
-          
-          
+          {feedbackMessage === '' && <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>}
           
           <View style={{ marginTop: '0%', alignSelf: 'center'}}>
-          <Card image={withoutImage}  back={targetImage} />
+          <Card image={withoutImage}  back={targetImage} startAnimation={userReady} />
           </View>
         </View>
       )}

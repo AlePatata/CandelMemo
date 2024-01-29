@@ -233,22 +233,20 @@ const WithImages = ({ navigation }) => {
   };
   const chunkCards = (cards) =>{
     const result = []
-    if (cards.length === 3){
-      result.push(cards)
-    } else {
+    
       for(let i=0; i<cards.length; i+=2){
         result.push(cards.slice(i,i+2));
       }
-    }
+    
     return result
   }
 
   /** Matriz de imagenes, se terminara mas tarde */
   const Matriz = () => {
     return (
-      <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 20, position: 'absolute', top: '20%', zIndex:1}}>
+      <View style={{ flexDirection: 'column', alignItems: 'center'}}>
         {chunkCards(cards).map((row, rowIndex)=>(
-          <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+          <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'center'}}>
             {row.map((column, columnIndex)=>(
               <TouchableHighlight
                 underlayColor={colors.white}
@@ -821,16 +819,18 @@ const WithImages = ({ navigation }) => {
         style={globalStyles.supizq}>
         <FontAwesomeIcon icon={faCircleQuestion} size={20} color={colors.black} />
       </TouchableOpacity>)}
-      
+      <View style={{position: 'absolute', top: '3%', zIndex:1}}>
       <Timer 
         style={{
-          color: "black",
-          fontSize: 20,
+          color: colors.black,
+          fontSize: 20, textAlign: 'center', position: 'relative', zIndex:1
         }} 
         time={4*60} // 4 minutos
         endGame={handleFinish} 
         reset={!isFinish && !showInstructions}
       />
+      </View>
+
       {/* mostrar puntaje cuando feedback no esta vacio */}
       {feedbackMessage != '' && (
         <View style={{ flexDirection: 'row', 
@@ -845,33 +845,38 @@ const WithImages = ({ navigation }) => {
         </View>
       )}
 
-      {/* Resultado de la seleccion */}
-      {feedbackMessage != '' && (
-        <Text style={globalStyles.resultText}>{feedbackMessage}</Text>
-      )}
-
-      {/* Matriz de imagenes */}
-      {!showInstructions && (<Matriz />)}
       
 
+
+        {/* Matriz de imagenes */}
+      <View style={{position: 'absolute', top: '15%', alignItems: 'center', zIndex:1}}>
+      {!showInstructions && (<Matriz />)}
+      </View>
       {difficult < 3 && (
         <View style={{ marginVertical: 10 }} />
       )} 
 
       {/* Contador de segundos hasta voltear las cartas */}
-      {!userReady && feedbackMessage === '' && (
-        <Text style={globalStyles.resultText}>{timerFlipCard}</Text>
-      )}
+      
 
       {/* Pregunta por la posición de la tarjeta */}
       {!showInstructions && (userReady) && targetImage && (
-        <View style={{ marginTop: '0%' }}>
+        <View style={{ position: 'absolute', bottom: '10%', zIndex:1}}>
           {feedbackMessage === '' && <Text style={globalStyles.text}>¿Dónde estaba esta tarjeta?</Text>}
           
           <View style={{ marginTop: '0%', alignSelf: 'center'}}>
           <Card image={withoutImage}  back={targetImage} startAnimation={userReady} />
           </View>
+          
         </View>
+      )}
+      {!userReady && feedbackMessage === '' && (
+            <Text style={[globalStyles.resultText, {position:'absolute', bottom: '20%', zIndex:1}]}>{timerFlipCard}</Text>
+          )}
+
+      {/* Resultado de la seleccion */}
+      {feedbackMessage != '' && (
+        <Text style={[globalStyles.resultText, {position: 'relative', top: '20%'}]}>{feedbackMessage}</Text>
       )}
     </View>
   );

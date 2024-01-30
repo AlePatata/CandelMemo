@@ -1,10 +1,19 @@
+'''
+
+ToDownload.py es un script que se encarga de descargar las imágenes de la página https://pngimg.com/images/
+para ser utilizadas en la aplicación. Se puede configurar la variable url para descargar desde cualquier página
+que contenga imágenes en formato PNG y que lo permita. Recomiendo usar esa página ya que fue la que se utilizó
+para encontrar la mayoría de las imágenes que se usan en la aplicación.
+Además se debe configurar la variable output_directory para que las imágenes se guarden en la carpeta deseada.
+
+'''
+
 import os
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 # URL de la página
-# url = "https://pngimg.com/images/objects/"
 url = "https://pngimg.com/images/fruits/"
 # Realiza la solicitud GET a la página
 response = requests.get(url)

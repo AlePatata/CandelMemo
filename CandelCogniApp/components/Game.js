@@ -16,7 +16,9 @@ import {
 const icons = [faCircle, faSquare, faStar, faHeart, faPlay, faDiamond];
 const sinIcono = faQuestionCircle;
 
-
+/** Game es la lógica original del juego, que recibí al tomar este proyecto.
+ * Este contempla toda la funcionalidad del juego pero con iconos de fontawesome.
+ */
 
 const Game = ({ navigation }) => {
 

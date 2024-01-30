@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../styles/colors";
 
-// componente que muestra el modal de fin de juego
+/** Componente que muestra el modal de fin de juego, reciclado de los demás juegos en la CandelApp */
 const FinishModal = ({showFinish, score, closeModal, startGame}) => {
     // renderiza el componente
     return(

@@ -5,9 +5,9 @@ import { useFocusEffect } from '@react-navigation/native';
 const Timer = ({ time, style, reset, endGame }) => {
   const [seconds, setSeconds] = useState(time);
 
-  useEffect(() => {
+/*   useEffect(() => {
     setSeconds(time);
-  }, [reset]);
+  }, [reset]); */
 
   useFocusEffect(
     useCallback(() => {

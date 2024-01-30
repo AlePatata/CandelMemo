@@ -97,8 +97,8 @@ export default TutorialModalStyle = StyleSheet.create({
     },
     card: {
         backgroundColor: 'white',
-        height: 90,
-        width: 90,
+        height: 100,
+        width: 100,
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,
@@ -107,8 +107,8 @@ export default TutorialModalStyle = StyleSheet.create({
         borderColor: 'orange',
       },
     tinyLogo: {
-        width: 70,
-        height: 70,
+        width: 90,
+        height: 90,
     },
 
 });

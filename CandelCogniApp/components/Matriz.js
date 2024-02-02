@@ -21,6 +21,12 @@ const withoutImage = {id:1,"path":require("./../assets/target.png"), "name":"tar
 
 const Matriz = ({cards, handleCardClick, feedbackMessage, userReady, difficult, targetImage, showInstructions, qcards}) => {
 
+    /* Card es un componente que conforma la estructura de una carta, con una imagen en la parte frontal y otra en la parte trasera
+    * Además, tiene un efecto de animación que permite voltear la carta cada vez que se muestra por defecto
+    * y sin animación cuando se le agrega el campo 'startAnimation = false'
+    * 
+    * cardStyle permite poder configurar el estilo de la carta, como el color del borde cuando se quiere mostrar el feedback
+    */
     const Card = ({image, back, cardStyle, startAnimation = true}) => {
         const flipAnim = useRef(new Animated.Value(0)).current;  // Initial value for opacity: 0
     
@@ -36,7 +42,7 @@ const Matriz = ({cards, handleCardClick, feedbackMessage, userReady, difficult, 
                 }
             ).start();
           }
-        }, [cards]);
+        }, [cards], startAnimation);
     
         const flipToBackStyle = {
             transform: [
